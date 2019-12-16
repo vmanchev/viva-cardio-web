@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
+  public availableLanguages = environment.availableLanguages;
 
-  constructor() { }
+  constructor(
+    private translateService: TranslateService
+  ) {}
 
-  ngOnInit() {
+  setLanguage(language: any): void {
+    this.translateService.use(language.code);
   }
-
 }

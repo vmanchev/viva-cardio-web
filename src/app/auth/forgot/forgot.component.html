@@ -1,14 +1,14 @@
 <mat-card>
-  <mat-card-title>Password recovery</mat-card-title>
+  <mat-card-title>{{ 'NAVIGATION.FORGOT_PASSWORD' | translate }}</mat-card-title>
   <mat-card-content>
     <div class="form__vertical">
       <mat-form-field appearance="outline">
-        <mat-label>Email address:</mat-label>
+        <mat-label>{{ 'FORM.EMAIL' | translate }}:</mat-label>
         <input matInput />
       </mat-form-field>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary">Submit</button>
+    <button mat-raised-button color="primary">{{ 'BUTTON.SUBMIT' | translate }}</button>
   </mat-card-actions>
 </mat-card>

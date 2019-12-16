@@ -1,0 +1,17 @@
+{
+    "NAVIGATION": {
+        "NEW_REGISTRATION": "Signup",
+        "LOGIN": "Login",
+        "FORGOT_PASSWORD": "Forgotten password?"
+    },
+    "FORM": {
+        "EMAIL": "Email address",
+        "PASSWORD": "Password",
+        "CONFIRM_PASSWORD": "Confirm password"
+    },
+    "BUTTON": {
+        "SUBMIT": "Submit",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+    }
+}

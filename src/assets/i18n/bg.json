@@ -1,0 +1,17 @@
+{
+    "NAVIGATION": {
+        "NEW_REGISTRATION": "Регистрация",
+        "LOGIN": "Вход",
+        "FORGOT_PASSWORD": "Забравена парола?"
+    },
+    "FORM": {
+        "EMAIL": "Електронна поща",
+        "PASSWORD": "Парола",
+        "CONFIRM_PASSWORD": "Повтори паролата"
+    },
+    "BUTTON": {
+        "SUBMIT": "Изпрати",
+        "SAVE": "Запази",
+        "CANCEL": "Откажи"
+    }
+}

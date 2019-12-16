@@ -3,19 +3,27 @@
     <span>VivaCardio.com</span>
     <span class="example-spacer"></span>
 
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="languageMenu">
+      <mat-icon>language</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="navigationMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
+
+    <mat-menu #navigationMenu="matMenu">
       <button mat-menu-item [routerLink]="['/register']">
         <mat-icon>person_add</mat-icon>
-        <span>Signup</span>
+        <span>{{ "NAVIGATION.NEW_REGISTRATION" | translate }}</span>
       </button>
       <button mat-menu-item [routerLink]="['/login']">
         <mat-icon>vpn_key</mat-icon>
-        <span>Login</span>
+        <span>{{ "NAVIGATION.LOGIN" | translate }}</span>
+      </button>
+    </mat-menu>
+
+    <mat-menu #languageMenu="matMenu">
+      <button mat-menu-item *ngFor="let language of availableLanguages" (click)="setLanguage(language)">
+        <span>{{ language.name }}</span>
       </button>
     </mat-menu>
   </mat-toolbar-row>

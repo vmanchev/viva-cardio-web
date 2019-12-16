@@ -1,24 +1,24 @@
 <mat-card>
-  <mat-card-title>New user registration</mat-card-title>
+  <mat-card-title>{{ 'NAVIGATION.NEW_REGISTRATION' | translate }}</mat-card-title>
   <mat-card-content>
     <div class="form__vertical">
       <mat-form-field appearance="outline">
-        <mat-label>Email address:</mat-label>
+        <mat-label>{{ 'FORM.EMAIL' | translate }}:</mat-label>
         <input matInput />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Password:</mat-label>
+        <mat-label>{{ 'FORM.PASSWORD' | translate }}:</mat-label>
         <input matInput />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Confirm password:</mat-label>
+        <mat-label>{{ 'FORM.CONFIRM_PASSWORD' | translate }}:</mat-label>
         <input matInput />
       </mat-form-field>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary">Submit</button>
+    <button mat-raised-button color="primary">{{ 'BUTTON.SUBMIT' | translate }}</button>
   </mat-card-actions>
 </mat-card>
