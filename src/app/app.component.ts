@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { environment } from "src/environments/environment";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
-  title = 'cardio-web';
+export class AppComponent implements OnInit {
+  title = "cardio-web";
+
+  constructor(private translateService: TranslateService) {}
+
+  ngOnInit() {
+    const defaultLanguage = environment.availableLanguages.filter(language => !!language.isDefault)[0];
+    this.translateService.setDefaultLang(defaultLanguage.code);
+  }
 }
