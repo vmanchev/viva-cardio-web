@@ -2,12 +2,21 @@
     "NAVIGATION": {
         "NEW_REGISTRATION": "Signup",
         "LOGIN": "Login",
-        "FORGOT_PASSWORD": "Forgotten password?"
+        "FORGOT_PASSWORD": "Forgotten password?",
+        "BLOOD_PRESSURE": {
+            "HOME": "Blood pressure",
+            "READING": "Reading"
+        }
     },
     "FORM": {
         "EMAIL": "Email address",
         "PASSWORD": "Password",
-        "CONFIRM_PASSWORD": "Confirm password"
+        "CONFIRM_PASSWORD": "Confirm password",
+        "BLOOD_PRESSURE": {
+            "SYS": "Systolic",
+            "DIA": "Diastolic",
+            "PULSE": "Pulse"
+        }
     },
     "BUTTON": {
         "SUBMIT": "Submit",

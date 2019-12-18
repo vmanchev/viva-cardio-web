@@ -2,12 +2,21 @@
     "NAVIGATION": {
         "NEW_REGISTRATION": "Регистрация",
         "LOGIN": "Вход",
-        "FORGOT_PASSWORD": "Забравена парола?"
+        "FORGOT_PASSWORD": "Забравена парола?",
+        "BLOOD_PRESSURE": {
+            "HOME": "Високо кръвно",
+            "READING": "Запис"
+        }
     },
     "FORM": {
         "EMAIL": "Електронна поща",
         "PASSWORD": "Парола",
-        "CONFIRM_PASSWORD": "Повтори паролата"
+        "CONFIRM_PASSWORD": "Повтори паролата",
+        "BLOOD_PRESSURE": {
+            "SYS": "Систолно (горно)",
+            "DIA": "Диастолно (долно)",
+            "PULSE": "Пулс"
+        }
     },
     "BUTTON": {
         "SUBMIT": "Изпрати",
