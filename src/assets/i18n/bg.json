@@ -6,6 +6,10 @@
         "BLOOD_PRESSURE": {
             "HOME": "Високо кръвно",
             "READING": "Запис"
+        },
+        "PATIENTS": {
+            "HOME": "Пациенти",
+            "ADD_NEW": "Добави нов пациент"
         }
     },
     "FORM": {
@@ -17,7 +21,10 @@
             "DIA": "Диастолно (долно)",
             "PULSE": "Пулс"
         },
-        "DATE_TIME": "Дата и час"
+        "DATE_TIME": "Дата и час",
+        "PATIENTS": {
+            "NAME": "Име"
+        }
     },
     "BUTTON": {
         "SUBMIT": "Изпрати",

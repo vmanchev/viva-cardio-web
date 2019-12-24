@@ -14,6 +14,8 @@ import { FooterComponent } from "./footer/footer.component";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { BloodPressureModule } from './blood-pressure/blood-pressure.module';
 import { BloodPressureRoutingModule } from './blood-pressure/blood-pressure-routing.module';
+import { PatientsModule } from './patients/patients.module';
+import { PatientsRoutingModule } from './patients/patients-routing.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -30,6 +32,8 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    PatientsModule,
+    PatientsRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

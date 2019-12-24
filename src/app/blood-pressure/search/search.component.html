@@ -31,3 +31,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+
+<button mat-fab color="primary" [routerLink]="['/blood-pressure', 'reading']">
+  <mat-icon>add</mat-icon>
+</button>

@@ -6,6 +6,10 @@
         "BLOOD_PRESSURE": {
             "HOME": "Blood pressure",
             "READING": "Reading"
+        },
+        "PATIENTS": {
+            "HOME": "Patients",
+            "ADD_NEW": "Add patient"
         }
     },
     "FORM": {
@@ -17,7 +21,10 @@
             "DIA": "Diastolic",
             "PULSE": "Pulse"
         },
-        "DATE_TIME": "Date & time"
+        "DATE_TIME": "Date & time",
+        "PATIENTS": {
+            "NAME": "Name"
+        }
     },
     "BUTTON": {
         "SUBMIT": "Submit",

@@ -19,12 +19,16 @@
         <mat-icon>vpn_key</mat-icon>
         <span>{{ "NAVIGATION.LOGIN" | translate }}</span>
       </button>
+      <button mat-menu-item [routerLink]="['/patients']">
+        <mat-icon>group</mat-icon>
+        <span>{{ "NAVIGATION.PATIENTS.HOME" | translate }}</span>
+      </button>
       <button mat-menu-item [routerLink]="['/blood-pressure']">
-        <mat-icon>vpn_key</mat-icon>
+        <mat-icon>favorite_border</mat-icon>
         <span>{{ "NAVIGATION.BLOOD_PRESSURE.HOME" | translate }}</span>
       </button>
       <button mat-menu-item [routerLink]="['/blood-pressure/reading']">
-        <mat-icon>vpn_key</mat-icon>
+        <mat-icon>playlist_add</mat-icon>
         <span>{{ "NAVIGATION.BLOOD_PRESSURE.READING" | translate }}</span>
       </button>
     </mat-menu>

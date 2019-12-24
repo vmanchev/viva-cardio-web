@@ -1,23 +1,27 @@
 <mat-card>
-    <mat-card-title>{{ 'NAVIGATION.BLOOD_PRESSURE.READING' | translate }}</mat-card-title>
-    <mat-card-content>
-        <div class="form__vertical">
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'FORM.BLOOD_PRESSURE.SYS' | translate }}:</mat-label>
-                <input matInput>
-            </mat-form-field>
-    
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'FORM.BLOOD_PRESSURE.DIA' | translate }}:</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'FORM.BLOOD_PRESSURE.PULSE' | translate }}:</mat-label>
-                <input matInput>
-            </mat-form-field>
-        </div>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary">{{ 'BUTTON.SAVE' | translate }}</button>
-    </mat-card-actions>
+  <mat-card-title>
+    {{ "NAVIGATION.BLOOD_PRESSURE.READING" | translate }}
+  </mat-card-title>
+  <mat-card-content>
+    <div class="form__vertical">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "FORM.BLOOD_PRESSURE.SYS" | translate }}:</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "FORM.BLOOD_PRESSURE.DIA" | translate }}:</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "FORM.BLOOD_PRESSURE.PULSE" | translate }}:</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">
+      {{ "BUTTON.SAVE" | translate }}
+    </button>
+  </mat-card-actions>
 </mat-card>
