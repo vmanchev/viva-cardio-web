@@ -1,12 +1,45 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from "@angular/common/http/testing";
 
-import { UserService } from './user.service';
+import { UserService } from "./user.service";
+import { User } from "./user.model";
+import { environment } from "src/environments/environment";
 
-describe('UserService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+const userMock = {
+  email: "test@example.org",
+  password: "qwerty"
+} as User;
 
-  it('should be created', () => {
-    const service: UserService = TestBed.get(UserService);
-    expect(service).toBeTruthy();
+describe("UserService", () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [UserService]
+    })
+  );
+
+  it("should be created", inject(
+    [HttpTestingController, UserService],
+    (httpMock: HttpTestingController, service: UserService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
+
+  describe("registration", () => {
+    it("should perform a POST request to the correct endpoint", inject(
+      [HttpTestingController, UserService],
+      (httpMock: HttpTestingController, service: UserService) => {
+        // ACT
+        service.registration(userMock).subscribe();
+
+        // ASSERT
+        const mockReq = httpMock.expectOne(environment.apiUrl + "/user");
+        expect(mockReq.request.body).toEqual(userMock)
+        httpMock.verify();
+      }
+    ));
   });
 });
