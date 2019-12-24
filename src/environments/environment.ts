@@ -11,7 +11,8 @@ export const environment = {
   }, {
     code: 'en',
     name: 'English'
-  }]
+  }],
+  apiUrl: 'http://api.cardio.local'
 };
 
 /*

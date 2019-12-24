@@ -24,6 +24,10 @@
         "DATE_TIME": "Дата и час",
         "PATIENTS": {
             "NAME": "Име"
+        },
+        "ERROR": {
+          "REQUIRED": "Задължително поле",
+          "INVALID_EMAIL": "Невалиден адрес на ел. поща"
         }
     },
     "BUTTON": {

@@ -24,6 +24,10 @@
         "DATE_TIME": "Date & time",
         "PATIENTS": {
             "NAME": "Name"
+        },
+        "ERROR": {
+          "REQUIRED": "Required field",
+          "INVALID_EMAIL": "Invalid email address"
         }
     },
     "BUTTON": {

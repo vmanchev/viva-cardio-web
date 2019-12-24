@@ -36,3 +36,9 @@ body {
   bottom: 16px;
   right: 16px;
 }
+
+.mat-form-field-appearance-outline {
+  .mat-form-field-subscript-wrapper {
+    padding-left: 0!important;
+  }
+}

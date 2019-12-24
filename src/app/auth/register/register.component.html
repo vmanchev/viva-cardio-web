@@ -1,24 +1,34 @@
-<mat-card>
-  <mat-card-title>{{ 'NAVIGATION.NEW_REGISTRATION' | translate }}</mat-card-title>
-  <mat-card-content>
-    <div class="form__vertical">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ 'FORM.EMAIL' | translate }}:</mat-label>
-        <input matInput />
-      </mat-form-field>
+<form [formGroup]="formService.userForm" (ngSubmit)="formHandler()">
+  <mat-card>
+    <mat-card-title>{{
+      "NAVIGATION.NEW_REGISTRATION" | translate
+    }}</mat-card-title>
+    <mat-card-content>
+      <div class="form__vertical">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ "FORM.EMAIL" | translate }}:</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-error *ngIf="formService.hasRequiredError('email')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
+          <mat-error *ngIf="formService.hasEmailError('email')">{{ 'FORM.ERROR.INVALID_EMAIL' | translate }}</mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ 'FORM.PASSWORD' | translate }}:</mat-label>
-        <input matInput />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ "FORM.PASSWORD" | translate }}:</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-error *ngIf="formService.hasRequiredError('password')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>{{ 'FORM.CONFIRM_PASSWORD' | translate }}:</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary">{{ 'BUTTON.SUBMIT' | translate }}</button>
-  </mat-card-actions>
-</mat-card>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ "FORM.CONFIRM_PASSWORD" | translate }}:</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" />
+          <mat-error *ngIf="formService.hasRequiredError('confirmPassword')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="submit" mat-raised-button color="primary">
+        {{ "BUTTON.SUBMIT" | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
