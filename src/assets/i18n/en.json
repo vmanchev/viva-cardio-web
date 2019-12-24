@@ -16,7 +16,8 @@
             "SYS": "Systolic",
             "DIA": "Diastolic",
             "PULSE": "Pulse"
-        }
+        },
+        "DATE_TIME": "Date & time"
     },
     "BUTTON": {
         "SUBMIT": "Submit",

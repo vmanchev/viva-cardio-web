@@ -10,10 +10,10 @@ export class SearchComponent implements OnInit {
 
   // fake data
   readings: BloodPressureReading[] = [
-    { sys: 160, dia: 85, pulse: 52, created_at: new Date()}
+    { sys: 160, dia: 85, pulse: 52, created_at: '2019-01-13T12:43:18'}
   ];
 
-  displayedColumns: string[] = ['sys', 'dia', 'pulse'];
+  displayedColumns: string[] = ['created_at', 'sys', 'dia', 'pulse'];
 
   constructor() { }
 

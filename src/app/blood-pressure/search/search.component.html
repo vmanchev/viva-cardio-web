@@ -1,4 +1,12 @@
 <table mat-table [dataSource]="readings" class="mat-elevation-z8">
+  
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ "FORM.DATE_TIME" | translate }}
+    </th>
+    <td mat-cell *matCellDef="let reading">{{ reading.created_at | date: 'dd.MM.yyyy HH:mm' }}</td>
+  </ng-container>
+  
   <ng-container matColumnDef="sys">
     <th mat-header-cell *matHeaderCellDef>
       {{ "FORM.BLOOD_PRESSURE.SYS" | translate }}
