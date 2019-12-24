@@ -30,5 +30,9 @@
         "SUBMIT": "Submit",
         "SAVE": "Save",
         "CANCEL": "Cancel"
+    },
+    "ACTION": {
+        "ACTIONS": "Actions",
+        "ADD_BLOOD_PRESSURE": "Add a new blood pressure reading"
     }
 }

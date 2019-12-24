@@ -7,13 +7,13 @@ import { ReadingComponent } from './reading/reading.component';
 const routes: Routes = [{
   path: 'blood-pressure',
   children: [{
-    path: '',
+    path: ':patientId                                                         ',
     component: SearchComponent
   }, {
-    path: 'reading',
+    path: ':patientId/reading',
     component: ReadingComponent
   }, {
-    path: 'reading/:id',
+    path: ':patientId/reading/:readingId',
     component: ReadingComponent
   }]
 }];

@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
     { id: 2, name: 'Петър Димитров' },
   ];
 
-  displayedColumns: string[] = ["name"];
+  displayedColumns: string[] = ["name", "actions"];
 
   constructor() {}
 
