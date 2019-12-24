@@ -3,6 +3,9 @@ import { UserService } from '../user.service';
 import { UserFormService } from '../user-form.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddTokenAction } from '../auth-store/actions';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/app-store';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +18,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     public formService: UserFormService,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store<State>
   ) { }
 
   ngOnInit() {
@@ -39,7 +43,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$)
     )
-    .subscribe(r => console.log(r));
+    .subscribe((response: any) => {
+      if (response.token) {
+        this.store.dispatch(new AddTokenAction(response.token))
+      }
+    });
   }
 
 }

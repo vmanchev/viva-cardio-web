@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { RegisterComponent } from "./register.component";
 import { Pipe, PipeTransform, Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import {
   TranslateLoader,
   TranslateModule,
@@ -14,6 +14,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MaterialModule } from "src/app/material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UserService } from "../user.service";
+import { Store, Action } from "@ngrx/store";
+import { takeUntil } from "rxjs/operators";
 
 @Pipe({
   name: "translate"
@@ -45,8 +47,14 @@ userServiceMock.registration.and.returnValue(of({}));
 describe("RegisterComponent", () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
+  const dispatch: Subject<Action> = new Subject();
+  const destroy = new Subject();
+  let actual: Action[];
 
   beforeEach(async(() => {
+    actual = [];
+    dispatch.pipe(takeUntil(destroy)).subscribe(a => actual.push(a));
+
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -59,6 +67,13 @@ describe("RegisterComponent", () => {
         })
       ],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: action => dispatch.next(action),
+            select: data => of(data)
+          }
+        },
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
         { provide: UserService, useValue: userServiceMock }
@@ -77,22 +92,24 @@ describe("RegisterComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should create the registration form', () => {
+  describe("ngOnInit", () => {
+    it("should create the registration form", () => {
       expect(component.formService.userForm.controls.email).toBeDefined();
       expect(component.formService.userForm.controls.password).toBeDefined();
-      expect(component.formService.userForm.controls.confirmPassword).toBeDefined();
+      expect(
+        component.formService.userForm.controls.confirmPassword
+      ).toBeDefined();
     });
   });
 
-  describe('formHandler', () => {
-    describe('when form is invalid', () => {
-      it('should not try to register the user', () => {
+  describe("formHandler", () => {
+    describe("when form is invalid", () => {
+      it("should not try to register the user", () => {
         // ARRANGE
         component.formService.userForm.setValue({
-          email: '',
-          password: '',
-          confirmPassword: ''
+          email: "",
+          password: "",
+          confirmPassword: ""
         });
 
         // ACT
@@ -103,13 +120,13 @@ describe("RegisterComponent", () => {
       });
     });
 
-    describe('when form is valid', () => {
-      it('should try to register the new user', () => {
+    describe("when form is valid", () => {
+      it("should try to register the new user", () => {
         // ARRANGE
         component.formService.userForm.setValue({
-          email: 'test@example.org',
-          password: 'test',
-          confirmPassword: 'test'
+          email: "test@example.org",
+          password: "test",
+          confirmPassword: "test"
         });
 
         // ACT
@@ -117,11 +134,10 @@ describe("RegisterComponent", () => {
 
         // ASSERT
         expect(userServiceMock.registration).toHaveBeenCalledWith({
-          email: 'test@example.org',
-          password: 'test'
+          email: "test@example.org",
+          password: "test"
         });
       });
     });
-
   });
 });

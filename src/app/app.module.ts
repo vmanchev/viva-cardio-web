@@ -16,6 +16,10 @@ import { BloodPressureModule } from './blood-pressure/blood-pressure.module';
 import { BloodPressureRoutingModule } from './blood-pressure/blood-pressure-routing.module';
 import { PatientsModule } from './patients/patients.module';
 import { PatientsRoutingModule } from './patients/patients-routing.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './app-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -40,7 +44,15 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    StoreModule.forRoot(reducers, {
+      metaReducers, 
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
   bootstrap: [AppComponent]

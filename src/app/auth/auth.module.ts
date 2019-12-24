@@ -8,6 +8,8 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { RegisterComponent } from './register/register.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import * as fromAuth from './auth-store/reducers';
 
 
 
@@ -18,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authStateReducer)
   ]
 })
 export class AuthModule { }

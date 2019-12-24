@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "cardio-web"
+  "defaultProject": "cardio-web",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
