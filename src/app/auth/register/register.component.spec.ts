@@ -17,6 +17,7 @@ import { UserService } from "../user.service";
 import { Store, Action } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
 import { MessageService } from "src/app/shared/message-service/message.service";
+import { Router } from '@angular/router';
 
 @Pipe({
   name: "translate"
@@ -53,6 +54,7 @@ describe("RegisterComponent", () => {
   const dispatch: Subject<Action> = new Subject();
   const destroy = new Subject();
   let actual: Action[];
+  let routerMock: Router;
 
   beforeEach(async(() => {
     actual = [];
@@ -90,6 +92,9 @@ describe("RegisterComponent", () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    routerMock = TestBed.get(Router);
+    spyOn(routerMock, 'navigate');
   });
 
   it("should create", () => {
@@ -185,6 +190,26 @@ describe("RegisterComponent", () => {
 
         // ASSERT
         expect(messageServiceMock.success).toHaveBeenCalledWith('MESSAGE.SUCCESS_REGISTRATION');
+      });
+
+      it("should navigate to patients", () => {
+        // ARRANGE
+        userServiceMock.registration.and.returnValue(
+          of({
+            token: "qwerty"
+          })
+        );
+        component.formService.userForm.setValue({
+          email: "test@example.org",
+          password: "test",
+          confirmPassword: "test"
+        });
+
+        // ACT
+        component.formHandler();
+
+        // ASSERT
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/patients']);
       });
     });
   });

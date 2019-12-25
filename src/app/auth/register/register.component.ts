@@ -7,6 +7,7 @@ import { AddTokenAction } from '../auth-store/actions';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/app-store';
 import { MessageService } from 'src/app/shared/message-service/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     public formService: UserFormService,
     private userService: UserService,
     private store: Store<State>,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       if (response.token) {
         this.store.dispatch(new AddTokenAction(response.token));
         this.messageService.success('MESSAGE.SUCCESS_REGISTRATION');
+        this.router.navigate(['/patients']);
       }
     });
   }
