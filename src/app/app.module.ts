@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material/material.module";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BloodPressureModule } from './blood-pressure/blood-pressure.module';
 import { BloodPressureRoutingModule } from './blood-pressure/blood-pressure-routing.module';
 import { PatientsModule } from './patients/patients.module';
@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './app-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -54,7 +55,9 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

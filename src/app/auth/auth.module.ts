@@ -8,8 +8,10 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { RegisterComponent } from './register/register.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as fromAuth from './auth-store/reducers';
+import { authTokenSelector } from './auth-store/selectors';
+import { AuthToken } from './auth-store/tokens';
 
 
 
@@ -22,6 +24,12 @@ import * as fromAuth from './auth-store/reducers';
     ReactiveFormsModule,
     TranslateModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authStateReducer)
+  ],
+  providers: [
+    {
+      provide: AuthToken, useFactory: (store) => store.select(authTokenSelector),
+      deps: [Store]
+  }
   ]
 })
 export class AuthModule { }
