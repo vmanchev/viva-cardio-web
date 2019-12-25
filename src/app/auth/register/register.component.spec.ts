@@ -111,11 +111,13 @@ describe("RegisterComponent", () => {
           password: "",
           confirmPassword: ""
         });
+        fixture.detectChanges();
 
         // ACT
         component.formHandler();
 
         // ASSERT
+        expect(component.formService.userForm.invalid).toBeTrue();
         expect(userServiceMock.registration).not.toHaveBeenCalled();
       });
     });
@@ -137,6 +139,26 @@ describe("RegisterComponent", () => {
           email: "test@example.org",
           password: "test"
         });
+      });
+
+      it("should dispatch the token when registration is successful", () => {
+        // ARRANGE
+        userServiceMock.registration.and.returnValue(of({
+          token: "qwerty"
+        }));
+        component.formService.userForm.setValue({
+          email: "test@example.org",
+          password: "test",
+          confirmPassword: "test"
+        });
+
+        // ACT
+        component.formHandler();
+
+        // ASSERT
+        expect(actual[0].type).toBe(
+          "[AuthActions] Add auth token to the store"
+        );
       });
     });
   });

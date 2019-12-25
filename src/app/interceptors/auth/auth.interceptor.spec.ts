@@ -1,7 +1,7 @@
 import { AuthInterceptor } from "./auth.interceptor";
 import { Subject, of } from "rxjs";
 
-fdescribe("Auth interceptor", () => {
+describe("Auth interceptor", () => {
   let token;
   const nextHandlerSpy = jasmine.createSpy("handleSpy", (request) => {});
 
