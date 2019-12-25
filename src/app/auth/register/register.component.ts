@@ -38,10 +38,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.userService.registration({
-      email: this.formService.userForm.controls.email.value,
-      password: this.formService.userForm.controls.password.value,
-    })
+    let {confirmPassword, ...userModel} = this.formService.userForm.value;
+
+    this.userService.registration(userModel)
     .pipe(
       takeUntil(this.destroy$)
     )

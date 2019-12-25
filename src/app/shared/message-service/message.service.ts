@@ -22,7 +22,8 @@ export class MessageService {
 
   private open(message: string, type: string) {
     this.snackBarService.open(this.translateService.instant(message), null, {
-      panelClass: `snack__${type}`
+      panelClass: `snack__${type}`,
+      duration: 2000
     });
   }
 }

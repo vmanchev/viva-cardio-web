@@ -1,16 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MessageService } from './message-service/message.service';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MessageService } from "./message-service/message.service";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    MessageService
-  ]
+  imports: [CommonModule],
+  providers: [MessageService]
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -35,7 +35,7 @@ describe("MessageService", () => {
         expect(MatSnackBarMock.open).toHaveBeenCalledWith(
           "MESSAGE.TEST",
           null,
-          { panelClass: "snack__success" }
+          { panelClass: "snack__success", duration: 2000 }
         );
       }
     ));
@@ -63,7 +63,7 @@ describe("MessageService", () => {
         expect(MatSnackBarMock.open).toHaveBeenCalledWith(
           "MESSAGE.TEST",
           null,
-          { panelClass: "snack__error" }
+          { panelClass: "snack__error", duration: 2000 }
         );
       }
     ));
