@@ -38,5 +38,8 @@
     "ACTION": {
         "ACTIONS": "Actions",
         "ADD_BLOOD_PRESSURE": "Add a new blood pressure reading"
+    },
+    "MESSAGE": {
+      "SUCCESS_REGISTRATION": "Your registration was successfull!"
     }
 }

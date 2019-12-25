@@ -38,5 +38,8 @@
     "ACTION": {
         "ACTIONS": "Действия",
         "ADD_BLOOD_PRESSURE": "Добави нов запис за кръвно налягане"
+    },
+    "MESSAGE": {
+      "SUCCESS_REGISTRATION": "Вашата регистрация приключи успешно!"
     }
 }

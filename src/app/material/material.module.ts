@@ -9,6 +9,10 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatTableModule } from "@angular/material/table";
+import {
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS
+} from "@angular/material/snack-bar";
 
 @NgModule({
   exports: [
@@ -19,8 +23,19 @@ import { MatTableModule } from "@angular/material/table";
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatTableModule,
     MatToolbarModule
+  ],
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        horizontalPosition: "right",
+        verticalPosition: "top",
+        duration: 2000
+      }
+    }
   ]
 })
 export class MaterialModule {}
