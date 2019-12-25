@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AddTokenAction } from '../auth-store/actions';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/app-store';
+import { MessageService } from 'src/app/shared/message-service/message.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     public formService: UserFormService,
     private userService: UserService,
-    private store: Store<State>
+    private store: Store<State>,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -45,7 +47,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     )
     .subscribe((response: any) => {
       if (response.token) {
-        this.store.dispatch(new AddTokenAction(response.token))
+        this.store.dispatch(new AddTokenAction(response.token));
+        this.messageService.success('MESSAGE.SUCCESS_REGISTRATION');
       }
     });
   }

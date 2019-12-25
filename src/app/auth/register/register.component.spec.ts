@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UserService } from "../user.service";
 import { Store, Action } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
+import { MessageService } from "src/app/shared/message-service/message.service";
 
 @Pipe({
   name: "translate"
@@ -43,6 +44,8 @@ class FakeLoader implements TranslateLoader {
 
 const userServiceMock = jasmine.createSpyObj("UserService", ["registration"]);
 userServiceMock.registration.and.returnValue(of({}));
+
+const messageServiceMock = jasmine.createSpyObj("MessageService", ["success"]);
 
 describe("RegisterComponent", () => {
   let component: RegisterComponent;
@@ -76,7 +79,8 @@ describe("RegisterComponent", () => {
         },
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: UserService, useValue: userServiceMock }
+        { provide: UserService, useValue: userServiceMock },
+        { provide: MessageService, useValue: messageServiceMock }
       ],
       declarations: [RegisterComponent, TranslatePipeMock]
     }).compileComponents();
@@ -143,9 +147,11 @@ describe("RegisterComponent", () => {
 
       it("should dispatch the token when registration is successful", () => {
         // ARRANGE
-        userServiceMock.registration.and.returnValue(of({
-          token: "qwerty"
-        }));
+        userServiceMock.registration.and.returnValue(
+          of({
+            token: "qwerty"
+          })
+        );
         component.formService.userForm.setValue({
           email: "test@example.org",
           password: "test",
@@ -159,6 +165,26 @@ describe("RegisterComponent", () => {
         expect(actual[0].type).toBe(
           "[AuthActions] Add auth token to the store"
         );
+      });
+
+      it("should show success message", () => {
+        // ARRANGE
+        userServiceMock.registration.and.returnValue(
+          of({
+            token: "qwerty"
+          })
+        );
+        component.formService.userForm.setValue({
+          email: "test@example.org",
+          password: "test",
+          confirmPassword: "test"
+        });
+
+        // ACT
+        component.formHandler();
+
+        // ASSERT
+        expect(messageServiceMock.success).toHaveBeenCalledWith('MESSAGE.SUCCESS_REGISTRATION');
       });
     });
   });

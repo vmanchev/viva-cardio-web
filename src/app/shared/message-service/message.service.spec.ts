@@ -10,7 +10,7 @@ const TranslateServiceMock = jasmine.createSpyObj("TranslateService", [
 ]);
 TranslateServiceMock.instant.and.callFake(a => a);
 
-fdescribe("MessageService", () => {
+describe("MessageService", () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [
