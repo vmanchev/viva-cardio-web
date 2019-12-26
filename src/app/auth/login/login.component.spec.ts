@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { LoginComponent } from "./login.component";
 import { Pipe, PipeTransform, Injectable } from "@angular/core";
-import { Observable, of, Subject, defer, throwError } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import {
   TranslateLoader,
   TranslateModule,
@@ -14,11 +14,7 @@ import { MaterialModule } from "src/app/material/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Store, Action } from "@ngrx/store";
-import { UserService } from "../user.service";
-import { MessageService } from "src/app/shared/message-service/message.service";
-import { Router } from "@angular/router";
 import { takeUntil } from "rxjs/operators";
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Pipe({
   name: "translate"
@@ -44,22 +40,16 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-const userServiceMock = jasmine.createSpyObj("UserService", ["login"]);
-userServiceMock.login.and.returnValue(of({}));
-
-const messageServiceMock = jasmine.createSpyObj("MessageService", ["success", "error"]);
-
 describe("LoginComponent", () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   const dispatch: Subject<Action> = new Subject();
-  const destroy = new Subject();
+  const destroy$ = new Subject();
   let actual: Action[];
-  let routerMock: Router;
 
   beforeEach(async(() => {
     actual = [];
-    dispatch.pipe(takeUntil(destroy)).subscribe(a => actual.push(a));
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
 
     TestBed.configureTestingModule({
       imports: [
@@ -81,9 +71,7 @@ describe("LoginComponent", () => {
           }
         },
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: UserService, useValue: userServiceMock },
-        { provide: MessageService, useValue: messageServiceMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock }
       ],
       declarations: [LoginComponent, TranslatePipeMock]
     }).compileComponents();
@@ -93,9 +81,11 @@ describe("LoginComponent", () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    routerMock = TestBed.get(Router);
-    spyOn(routerMock, 'navigate');
+  afterEach(() => {
+    destroy$.next();
+    destroy$.complete();
   });
 
   it("should create", () => {
@@ -127,12 +117,12 @@ describe("LoginComponent", () => {
 
         // ASSERT
         expect(component.formService.userForm.invalid).toBeTrue();
-        expect(userServiceMock.login).not.toHaveBeenCalled();
+        expect(actual.length).toBe(0);
       });
     });
 
     describe("when form is valid", () => {
-      it("should try to authenticate the user", () => {
+      it("should dispatch AuthenticateUserAction", () => {
         // ARRANGE
         component.formService.userForm.setValue({
           email: "test@example.org",
@@ -143,98 +133,7 @@ describe("LoginComponent", () => {
         component.formHandler();
 
         // ASSERT
-        expect(userServiceMock.login).toHaveBeenCalledWith({
-          email: "test@example.org",
-          password: "test"
-        });
-      });
-
-      describe('when user is not authenticated', () => {
-        it('should show an error message', () => {
-          // ARRANGE
-          userServiceMock.login.and.returnValue(throwError(new HttpErrorResponse({status: 404})));
-          component.formService.userForm.setValue({
-            email: "test@example.org",
-            password: "test"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(component.formService.userForm.valid).toBeTrue();
-          expect(userServiceMock.login).toHaveBeenCalledWith({
-            email: "test@example.org",
-            password: "test"
-          });
-          expect(messageServiceMock.error).toHaveBeenCalledWith(
-            "MESSAGE.ERROR_LOGIN"
-          );
-        })
-      });
-
-      describe("when user is authenticated", () => {
-
-        it("should dispatch the token", () => {
-          // ARRANGE
-          userServiceMock.login.and.returnValue(
-            of({
-              token: "qwerty"
-            })
-          );
-          component.formService.userForm.setValue({
-            email: "test@example.org",
-            password: "test"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(actual[0].type).toBe(
-            "[AuthActions] Add auth token to the store"
-          );
-        });
-
-        it("should show success message", () => {
-          // ARRANGE
-          userServiceMock.login.and.returnValue(
-            of({
-              token: "qwerty"
-            })
-          );
-          component.formService.userForm.setValue({
-            email: "test@example.org",
-            password: "test"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(messageServiceMock.success).toHaveBeenCalledWith(
-            "MESSAGE.SUCCESS_LOGIN"
-          );
-        });
-
-        it("should navigate to patients", () => {
-          // ARRANGE
-          userServiceMock.login.and.returnValue(
-            of({
-              token: "qwerty"
-            })
-          );
-          component.formService.userForm.setValue({
-            email: "test@example.org",
-            password: "test"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(routerMock.navigate).toHaveBeenCalledWith(["/patients"]);
-        });
+        expect(actual[0].type).toBe("[AuthActions] User authentication");
       });
     });
   });

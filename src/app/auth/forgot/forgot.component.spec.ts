@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ForgotComponent } from "./forgot.component";
 import { MaterialModule } from "src/app/material/material.module";
 import { Pipe, PipeTransform, Injectable } from "@angular/core";
-import { Observable, of, Subject, throwError } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import {
   TranslateService,
   TranslatePipe,
@@ -11,12 +11,10 @@ import {
   TranslateLoader
 } from "@ngx-translate/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { Router } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import { UserService } from "../user.service";
-import { MessageService } from "src/app/shared/message-service/message.service";
-import { HttpErrorResponse } from "@angular/common/http";
+import { Action, Store } from "@ngrx/store";
+import { takeUntil } from "rxjs/operators";
 
 @Pipe({
   name: "translate"
@@ -42,21 +40,17 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-const userServiceMock = jasmine.createSpyObj("UserService", ["forgot"]);
-userServiceMock.forgot.and.returnValue(of({}));
-
-const messageServiceMock = jasmine.createSpyObj("MessageService", [
-  "success",
-  "error"
-]);
-
 describe("ForgotComponent", () => {
   let component: ForgotComponent;
   let fixture: ComponentFixture<ForgotComponent>;
-  const destroy = new Subject();
-  let routerMock: Router;
+  const dispatch: Subject<Action> = new Subject();
+  const destroy$ = new Subject();
+  let actual: Action[];
 
   beforeEach(async(() => {
+    actual = [];
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
+
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -69,10 +63,15 @@ describe("ForgotComponent", () => {
         })
       ],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: action => dispatch.next(action),
+            select: data => of(data)
+          }
+        },
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: UserService, useValue: userServiceMock },
-        { provide: MessageService, useValue: messageServiceMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock }
       ],
       declarations: [ForgotComponent, TranslatePipeMock]
     }).compileComponents();
@@ -82,9 +81,11 @@ describe("ForgotComponent", () => {
     fixture = TestBed.createComponent(ForgotComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    routerMock = TestBed.get(Router);
-    spyOn(routerMock, "navigate");
+  afterEach(() => {
+    destroy$.next();
+    destroy$.complete();
   });
 
   it("should create", () => {
@@ -113,12 +114,12 @@ describe("ForgotComponent", () => {
 
         // ASSERT
         expect(component.formService.userForm.invalid).toBeTrue();
-        expect(userServiceMock.forgot).not.toHaveBeenCalled();
+        expect(actual.length).toBe(0);
       });
     });
 
     describe("when form is valid", () => {
-      it("should try to reset the user password", () => {
+      it("should dispatch ForgotPasswordRequestAction", () => {
         // ARRANGE
         component.formService.userForm.setValue({
           email: "test@example.org"
@@ -128,65 +129,7 @@ describe("ForgotComponent", () => {
         component.formHandler();
 
         // ASSERT
-        expect(userServiceMock.forgot).toHaveBeenCalledWith({
-          email: "test@example.org"
-        });
-      });
-
-      describe("when user is unknown", () => {
-        it("should show an error message", () => {
-          // ARRANGE
-          userServiceMock.forgot.and.returnValue(
-            throwError(new HttpErrorResponse({ status: 404 }))
-          );
-          component.formService.userForm.setValue({
-            email: "test@example.org"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(component.formService.userForm.valid).toBeTrue();
-          expect(userServiceMock.forgot).toHaveBeenCalledWith({
-            email: "test@example.org"
-          });
-          expect(messageServiceMock.error).toHaveBeenCalledWith(
-            "MESSAGE.ERROR_FORGOT"
-          );
-        });
-      });
-
-      describe("when user is known", () => {
-        it("should show success message", () => {
-          // ARRANGE
-          userServiceMock.forgot.and.returnValue(of({}));
-          component.formService.userForm.setValue({
-            email: "test@example.org"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(messageServiceMock.success).toHaveBeenCalledWith(
-            "MESSAGE.SUCCESS_FORGOT"
-          );
-        });
-
-        it("should navigate to login", () => {
-          // ARRANGE
-          userServiceMock.forgot.and.returnValue(of({}));
-          component.formService.userForm.setValue({
-            email: "test@example.org"
-          });
-
-          // ACT
-          component.formHandler();
-
-          // ASSERT
-          expect(routerMock.navigate).toHaveBeenCalledWith(["/login"]);
-        });
+        expect(actual[0].type).toBe("[AuthActions] Forgot password request");
       });
     });
   });

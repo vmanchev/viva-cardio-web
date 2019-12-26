@@ -14,7 +14,6 @@ import {
 } from "./actions";
 import { of, throwError, ReplaySubject } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
-import { async } from "@angular/core/testing";
 
 const userServiceStub = jasmine.createSpyObj("UserService", [
   "registration",
@@ -43,7 +42,7 @@ function instantiateEffect(source) {
   );
 }
 
-fdescribe("AuthEffects", () => {
+describe("AuthEffects", () => {
   describe("newUserRegistration$", () => {
     describe("on success", () => {
       it("should dispatch AddTokenAction and SuccessfullRegistrationAction", () => {

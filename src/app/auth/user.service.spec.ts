@@ -57,4 +57,20 @@ describe("UserService", () => {
       }
     ));
   });
+
+  describe("forgot", () => {
+    it("should perform a POST request to the forgot endpoint", inject(
+      [HttpTestingController, UserService],
+      (httpMock: HttpTestingController, service: UserService) => {
+        // ACT
+        service.forgot(userMock).subscribe();
+
+        // ASSERT
+        const mockReq = httpMock.expectOne(environment.apiUrl + "/user/forgot");
+        expect(mockReq.request.body).toEqual(userMock)
+        httpMock.verify();
+      }
+    ));
+  });
+
 });

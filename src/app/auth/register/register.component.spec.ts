@@ -13,10 +13,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MaterialModule } from "src/app/material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { UserService } from "../user.service";
 import { Store, Action } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
-import { MessageService } from "src/app/shared/message-service/message.service";
 import { Router } from '@angular/router';
 
 @Pipe({
@@ -43,22 +41,16 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-const userServiceMock = jasmine.createSpyObj("UserService", ["registration"]);
-userServiceMock.registration.and.returnValue(of({}));
-
-const messageServiceMock = jasmine.createSpyObj("MessageService", ["success"]);
-
 describe("RegisterComponent", () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   const dispatch: Subject<Action> = new Subject();
-  const destroy = new Subject();
+  const destroy$ = new Subject();
   let actual: Action[];
-  let routerMock: Router;
 
   beforeEach(async(() => {
     actual = [];
-    dispatch.pipe(takeUntil(destroy)).subscribe(a => actual.push(a));
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
 
     TestBed.configureTestingModule({
       imports: [
@@ -80,9 +72,7 @@ describe("RegisterComponent", () => {
           }
         },
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: UserService, useValue: userServiceMock },
-        { provide: MessageService, useValue: messageServiceMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock }
       ],
       declarations: [RegisterComponent, TranslatePipeMock]
     }).compileComponents();
@@ -92,9 +82,11 @@ describe("RegisterComponent", () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    routerMock = TestBed.get(Router);
-    spyOn(routerMock, 'navigate');
+  afterEach(() => {
+    destroy$.next();
+    destroy$.complete();
   });
 
   it("should create", () => {
@@ -127,36 +119,13 @@ describe("RegisterComponent", () => {
 
         // ASSERT
         expect(component.formService.userForm.invalid).toBeTrue();
-        expect(userServiceMock.registration).not.toHaveBeenCalled();
+        expect(actual.length).toBe(0);
       });
     });
 
     describe("when form is valid", () => {
-      it("should try to register the new user", () => {
+      it("should dispatch RegisterNewUserAction", () => {
         // ARRANGE
-        component.formService.userForm.setValue({
-          email: "test@example.org",
-          password: "test",
-          confirmPassword: "test"
-        });
-
-        // ACT
-        component.formHandler();
-
-        // ASSERT
-        expect(userServiceMock.registration).toHaveBeenCalledWith({
-          email: "test@example.org",
-          password: "test"
-        });
-      });
-
-      it("should dispatch the token when registration is successful", () => {
-        // ARRANGE
-        userServiceMock.registration.and.returnValue(
-          of({
-            token: "qwerty"
-          })
-        );
         component.formService.userForm.setValue({
           email: "test@example.org",
           password: "test",
@@ -168,49 +137,10 @@ describe("RegisterComponent", () => {
 
         // ASSERT
         expect(actual[0].type).toBe(
-          "[AuthActions] Add auth token to the store"
+          "[AuthActions] Register a new user"
         );
       });
 
-      it("should show success message", () => {
-        // ARRANGE
-        userServiceMock.registration.and.returnValue(
-          of({
-            token: "qwerty"
-          })
-        );
-        component.formService.userForm.setValue({
-          email: "test@example.org",
-          password: "test",
-          confirmPassword: "test"
-        });
-
-        // ACT
-        component.formHandler();
-
-        // ASSERT
-        expect(messageServiceMock.success).toHaveBeenCalledWith('MESSAGE.SUCCESS_REGISTRATION');
-      });
-
-      it("should navigate to patients", () => {
-        // ARRANGE
-        userServiceMock.registration.and.returnValue(
-          of({
-            token: "qwerty"
-          })
-        );
-        component.formService.userForm.setValue({
-          email: "test@example.org",
-          password: "test",
-          confirmPassword: "test"
-        });
-
-        // ACT
-        component.formHandler();
-
-        // ASSERT
-        expect(routerMock.navigate).toHaveBeenCalledWith(['/patients']);
-      });
     });
   });
 });
