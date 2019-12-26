@@ -13,6 +13,8 @@ import * as fromAuth from './auth-store/reducers';
 import { authTokenSelector } from './auth-store/selectors';
 import { AuthToken } from './auth-store/tokens';
 import { SharedModule } from '../shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './auth-store/effects';
 
 
 
@@ -25,7 +27,10 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     TranslateModule,
     SharedModule,
-    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authStateReducer)
+    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.authStateReducer),
+    EffectsModule.forFeature([
+      AuthEffects
+    ])
   ],
   providers: [
     {

@@ -22,6 +22,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -55,7 +57,8 @@ export function createTranslateLoader(http: HttpClient) {
         strictActionImmutability: true,
       }
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

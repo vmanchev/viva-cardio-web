@@ -1,65 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { UserFormService } from '../user-form.service';
-import { UserService } from '../user.service';
-import { Store } from '@ngrx/store';
-import { State } from 'src/app/app-store';
-import { MessageService } from 'src/app/shared/message-service/message.service';
-import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { AddTokenAction } from '../auth-store/actions';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from "@angular/core";
+import { UserFormService } from "../user-form.service";
+import { Store } from "@ngrx/store";
+import { State } from "src/app/app-store";
+import { AuthenticateUserAction } from "../auth-store/actions";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"]
 })
-export class LoginComponent implements OnInit, OnDestroy {
-
-  private destroy$ = new Subject();
-
+export class LoginComponent implements OnInit {
   constructor(
     public formService: UserFormService,
-    private userService: UserService,
-    private store: Store<State>,
-    private messageService: MessageService,
-    private router: Router
-  ) { }
+    private store: Store<State>
+  ) {}
 
   ngOnInit() {
     this.formService.getLoginForm();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-  }
-
   formHandler() {
-
     if (this.formService.userForm.invalid) {
       return;
     }
 
-    this.userService.login(this.formService.userForm.value)
-    .pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(
-      this.successHandler.bind(this),
-      this.errorHandler.bind(this)
+    this.store.dispatch(
+      new AuthenticateUserAction(this.formService.userForm.value)
     );
-  }
-
-  private successHandler(response: any) {
-    if (response.token) {
-      this.store.dispatch(new AddTokenAction(response.token));
-      this.messageService.success('MESSAGE.SUCCESS_LOGIN');
-      this.router.navigate(['/patients']);
-    }
-  }
-
-  private errorHandler(errorResponse: HttpErrorResponse) {
-    this.messageService.error('MESSAGE.ERROR_LOGIN');
   }
 }
