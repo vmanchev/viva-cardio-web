@@ -71,6 +71,9 @@ describe("PatientService", () => {
         const mockReq = httpMock.expectOne(
           environment.apiUrl + "/patient/" + patientMock.id
         );
+
+        expect(mockReq.request.body).toBeFalsy();
+        expect(mockReq.request.url).toMatch(/\/patient\/123/);
         httpMock.verify();
       }
     ));

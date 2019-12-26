@@ -1,15 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PatientComponent } from './patient.component';
+import { PatientComponent } from "./patient.component";
 
-import { Pipe, PipeTransform, Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { TranslateLoader, TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from 'src/app/material/material.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Action, Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs/operators';
+import { Pipe, PipeTransform, Injectable } from "@angular/core";
+import { Observable, of, Subject } from "rxjs";
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslatePipe
+} from "@ngx-translate/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MaterialModule } from "src/app/material/material.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Action, Store } from "@ngrx/store";
+import { takeUntil } from "rxjs/operators";
 
 @Pipe({
   name: "translate"
@@ -35,8 +40,7 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-
-describe('PatientComponent', () => {
+describe("PatientComponent", () => {
   let component: PatientComponent;
   let fixture: ComponentFixture<PatientComponent>;
   const dispatch: Subject<Action> = new Subject();
@@ -47,7 +51,7 @@ describe('PatientComponent', () => {
   beforeEach(async(() => {
     actual = [];
     dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
-    
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -72,7 +76,6 @@ describe('PatientComponent', () => {
     }).compileComponents();
   }));
 
-
   beforeEach(() => {
     fixture = TestBed.createComponent(PatientComponent);
     component = fixture.componentInstance;
@@ -81,7 +84,41 @@ describe('PatientComponent', () => {
     resetSpy = spyOn(component.formService.patientForm, "reset");
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  describe("formHandler", () => {
+    describe("when form is invalid", () => {
+      it("should not try to add a new patient", () => {
+        // ARRANGE
+        component.formService.patientForm.setValue({
+          name: ""
+        });
+        fixture.detectChanges();
+
+        // ACT
+        component.formHandler();
+
+        // ASSERT
+        expect(component.formService.patientForm.invalid).toBeTrue();
+        expect(actual.length).toBe(0);
+      });
+    });
+
+    describe("when form is valid", () => {
+      it("should dispatch AddPatientAction", () => {
+        // ARRANGE
+        component.formService.patientForm.setValue({
+          name: "John"
+        });
+
+        // ACT
+        component.formHandler();
+
+        // ASSERT
+        expect(actual[0].type).toBe("[PatientActions] Add patient");
+      });
+    });
   });
 });
