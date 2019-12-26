@@ -22,6 +22,7 @@
           <mat-label>{{ "FORM.CONFIRM_PASSWORD" | translate }}:</mat-label>
           <input matInput type="password" formControlName="confirmPassword" autocomplete="new-password" />
           <mat-error *ngIf="formService.hasRequiredError('confirmPassword')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
+          <mat-error *ngIf="formService.hasMismatchError()">{{ 'FORM.ERROR.PASSWORDS_MISMATCH' | translate }}</mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>
