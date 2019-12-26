@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.formService.getLoginForm();
+    this.formService.userForm.reset();
   }
 
   formHandler() {

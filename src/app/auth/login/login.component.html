@@ -1,4 +1,4 @@
-<form [formGroup]="formService.userForm" (ngSubmit)="formHandler()">
+<form [formGroup]="formService.userForm" (ngSubmit)="formHandler()" autocomplete="off">
   <mat-card>
     <mat-card-title>{{ "NAVIGATION.LOGIN" | translate }}</mat-card-title>
     <mat-card-content>
@@ -12,7 +12,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>{{ "FORM.PASSWORD" | translate }}:</mat-label>
-          <input matInput type="password" formControlName="password" />
+          <input matInput type="password" formControlName="password" autocomplete="new-password" />
           <mat-error *ngIf="formService.hasRequiredError('password')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
         </mat-form-field>
       </div>

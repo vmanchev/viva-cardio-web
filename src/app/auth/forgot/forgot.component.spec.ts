@@ -46,6 +46,7 @@ describe("ForgotComponent", () => {
   const dispatch: Subject<Action> = new Subject();
   const destroy$ = new Subject();
   let actual: Action[];
+  let resetSpy;
 
   beforeEach(async(() => {
     actual = [];
@@ -81,6 +82,8 @@ describe("ForgotComponent", () => {
     fixture = TestBed.createComponent(ForgotComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    resetSpy = spyOn(component.formService.userForm, "reset");
   });
 
   afterEach(() => {
@@ -98,6 +101,16 @@ describe("ForgotComponent", () => {
     expect(
       component.formService.userForm.controls.confirmPassword
     ).not.toBeDefined();
+  });
+
+  describe("ngOnInit", () => {
+    it("should reset the form", () => {
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(resetSpy).toHaveBeenCalled();
+    });
   });
 
   describe("formHandler", () => {

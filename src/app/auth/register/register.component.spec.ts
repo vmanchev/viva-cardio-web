@@ -15,7 +15,7 @@ import { MaterialModule } from "src/app/material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Store, Action } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Pipe({
   name: "translate"
@@ -47,6 +47,7 @@ describe("RegisterComponent", () => {
   const dispatch: Subject<Action> = new Subject();
   const destroy$ = new Subject();
   let actual: Action[];
+  let resetSpy;
 
   beforeEach(async(() => {
     actual = [];
@@ -82,6 +83,8 @@ describe("RegisterComponent", () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    resetSpy = spyOn(component.formService.userForm, "reset");
   });
 
   afterEach(() => {
@@ -94,12 +97,21 @@ describe("RegisterComponent", () => {
   });
 
   describe("ngOnInit", () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+
     it("should create the registration form", () => {
       expect(component.formService.userForm.controls.email).toBeDefined();
       expect(component.formService.userForm.controls.password).toBeDefined();
       expect(
         component.formService.userForm.controls.confirmPassword
       ).toBeDefined();
+    });
+
+    it("should reset the form", () => {
+      // ASSERT
+      expect(resetSpy).toHaveBeenCalled();
     });
   });
 
@@ -136,11 +148,8 @@ describe("RegisterComponent", () => {
         component.formHandler();
 
         // ASSERT
-        expect(actual[0].type).toBe(
-          "[AuthActions] Register a new user"
-        );
+        expect(actual[0].type).toBe("[AuthActions] Register a new user");
       });
-
     });
   });
 });

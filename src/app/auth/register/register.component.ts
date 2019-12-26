@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.formService.getRegistrationForm();
+    this.formService.userForm.reset();
   }
 
   formHandler() {

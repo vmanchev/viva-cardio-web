@@ -46,6 +46,7 @@ describe("LoginComponent", () => {
   const dispatch: Subject<Action> = new Subject();
   const destroy$ = new Subject();
   let actual: Action[];
+  let resetSpy;
 
   beforeEach(async(() => {
     actual = [];
@@ -81,6 +82,8 @@ describe("LoginComponent", () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    resetSpy = spyOn(component.formService.userForm, "reset");
   });
 
   afterEach(() => {
@@ -93,12 +96,21 @@ describe("LoginComponent", () => {
   });
 
   describe("ngOnInit", () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+    
     it("should create the login form", () => {
       expect(component.formService.userForm.controls.email).toBeDefined();
       expect(component.formService.userForm.controls.password).toBeDefined();
       expect(
         component.formService.userForm.controls.confirmPassword
       ).not.toBeDefined();
+    });
+
+    it("should reset the form", () => {
+      // ASSERT
+      expect(resetSpy).toHaveBeenCalled();
     });
   });
 
