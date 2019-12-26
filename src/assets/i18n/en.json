@@ -28,7 +28,8 @@
         "ERROR": {
           "REQUIRED": "Required field",
           "INVALID_EMAIL": "Invalid email address",
-          "PASSWORDS_MISMATCH": "Passwords mismatch!"
+          "PASSWORDS_MISMATCH": "Passwords mismatch!",
+          "MIN_LENGTH": "Min {{ minLength }} characters!"
         }
     },
     "BUTTON": {

@@ -23,12 +23,12 @@ export class UserFormService {
   getRegistrationForm() {
     this.userForm.addControl(
       "password",
-      new FormControl("", Validators.required)
+      new FormControl("", [Validators.required, Validators.minLength(6)])
     );
 
     this.userForm.addControl(
       "confirmPassword",
-      new FormControl("", [Validators.required])
+      new FormControl("", [Validators.required, Validators.minLength(6)])
     );
 
     this.userForm.setValidators(ValidatePassword.MismatchPassword);
@@ -55,5 +55,9 @@ export class UserFormService {
       "errors.mismatch",
       false
     );
+  }
+
+  hasMinLengthError(name: string): boolean {
+    return _.get(this.userForm.controls[name], "errors.minlength", false);
   }
 }

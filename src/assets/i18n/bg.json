@@ -28,7 +28,8 @@
         "ERROR": {
           "REQUIRED": "Задължително поле",
           "INVALID_EMAIL": "Невалиден адрес на ел. поща",
-          "PASSWORDS_MISMATCH": "Паролите не съвпадат!"
+          "PASSWORDS_MISMATCH": "Паролите не съвпадат!",
+          "MIN_LENGTH": "Минимум {{ minLength }} символа!"
         }
     },
     "BUTTON": {

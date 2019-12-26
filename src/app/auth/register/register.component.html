@@ -16,6 +16,7 @@
           <mat-label>{{ "FORM.PASSWORD" | translate }}:</mat-label>
           <input matInput type="password" formControlName="password" autocomplete="new-password" />
           <mat-error *ngIf="formService.hasRequiredError('password')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
+          <mat-error *ngIf="formService.hasMinLengthError('password')">{{ 'FORM.ERROR.MIN_LENGTH' | translate : {minLength: formService.userForm.controls.password.errors.minlength.requiredLength} }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -23,6 +24,7 @@
           <input matInput type="password" formControlName="confirmPassword" autocomplete="new-password" />
           <mat-error *ngIf="formService.hasRequiredError('confirmPassword')">{{ 'FORM.ERROR.REQUIRED' | translate }}</mat-error>
           <mat-error *ngIf="formService.hasMismatchError()">{{ 'FORM.ERROR.PASSWORDS_MISMATCH' | translate }}</mat-error>
+          <mat-error *ngIf="formService.hasMinLengthError('confirmPassword')">{{ 'FORM.ERROR.MIN_LENGTH' | translate : {minLength: formService.userForm.controls.confirmPassword.errors.minlength.requiredLength} }}</mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>
