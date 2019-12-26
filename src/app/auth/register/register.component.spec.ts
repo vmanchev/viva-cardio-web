@@ -86,7 +86,7 @@ describe("RegisterComponent", () => {
     resetSpy = spyOn(component.formService.userForm, "reset");
   });
 
-  afterEach(() => {
+  afterAll(() => {
     destroy$.next();
     destroy$.complete();
   });

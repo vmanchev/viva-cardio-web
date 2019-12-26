@@ -87,6 +87,11 @@ describe("PatientComponent", () => {
     resetSpy = spyOn(component.formService.patientForm, "reset");
   });
 
+  afterAll(() => {
+    destroy$.next();
+    destroy$.complete();
+  });
+
   it("should create", () => {
     expect(component).toBeTruthy();
   });

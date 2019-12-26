@@ -1,21 +1,44 @@
-import { Component, OnInit } from "@angular/core";
-import { Patient } from '../patient.model';
+import { Component, OnInit, Inject, OnDestroy } from "@angular/core";
+import { Patient } from "../patient.model";
+import { PatientsToken } from "../patients-store/tokens";
+import { Observable, Subject } from "rxjs";
+import { takeUntil, take } from "rxjs/operators";
+import { State } from "src/app/app-store";
+import { Store } from "@ngrx/store";
+import { FetchPatientsAction } from "../patients-store/actions";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
+
   // fake data
-  patients: Patient[] = [
-    { id: 1, name: 'Иван Иванов' },
-    { id: 2, name: 'Петър Димитров' },
-  ];
+  patients: Patient[] = [];
 
   displayedColumns: string[] = ["name", "actions"];
 
-  constructor() {}
+  constructor(
+    @Inject(PatientsToken) private itemsToken$: Observable<Patient[]>,
+    private store: Store<State>
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.itemsToken$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((patients: Patient[]) => {
+        if (!patients.length) {
+          this.store.dispatch(new FetchPatientsAction());
+        } else {
+          this.patients = patients;
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -8,10 +8,12 @@ import { MaterialModule } from "../material/material.module";
 import { TranslateModule } from "@ngx-translate/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
-import { StoreModule } from "@ngrx/store";
+import { StoreModule, Store } from "@ngrx/store";
 import * as fromPatients from "./patients-store/reducers";
 import { EffectsModule } from "@ngrx/effects";
 import { PatientEffects } from "./patients-store/effects";
+import { PatientsToken } from './patients-store/tokens';
+import { patientsSelector } from './patients-store/selectors';
 
 @NgModule({
   declarations: [SearchComponent, PatientComponent],
@@ -27,6 +29,13 @@ import { PatientEffects } from "./patients-store/effects";
       fromPatients.patientsStateReducer
     ),
     EffectsModule.forFeature([PatientEffects])
+  ],
+  providers: [
+    {
+      provide: PatientsToken,
+      useFactory: store => store.select(patientsSelector),
+      deps: [Store]
+    }
   ]
 })
 export class PatientsModule {}

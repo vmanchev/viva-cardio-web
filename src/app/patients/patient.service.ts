@@ -25,4 +25,8 @@ export class PatientService {
   public delete(id: number) {
     return this.http.delete(environment.apiUrl + this.path + "/" + id);
   }
+
+  public search() {
+    return this.http.get(environment.apiUrl + this.path);
+  }
 }

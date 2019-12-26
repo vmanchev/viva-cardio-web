@@ -7,7 +7,9 @@ export const PatientActions = {
   UpdatePatient: "[PatientActions] Update patient",
   UpdatePatientSuccess: "[PatientActions] Successfully updated patient",
   DeletePatient: "[PatientActions] Delete patient",
-  DeletePatientSuccess: "[PatientActions] Successfully deleted patient"
+  DeletePatientSuccess: "[PatientActions] Successfully deleted patient",
+  FetchPatients: "[PatientAction] Fetch patients list",
+  StoreBulkPatients: "[PatientAction] Store bulk patients list locally"
 };
 
 export class AddPatientAction implements Action {
@@ -30,6 +32,7 @@ export class DeletePatientAction implements Action {
 
 export class AddPatientSuccessAction implements Action {
   readonly type = PatientActions.AddPatientSuccess;
+  constructor(public payload: Patient) {}
 }
 
 export class UpdatePatientSuccessAction implements Action {
@@ -38,4 +41,14 @@ export class UpdatePatientSuccessAction implements Action {
 
 export class DeletePatientSuccessAction implements Action {
   readonly type = PatientActions.DeletePatientSuccess;
+}
+
+export class FetchPatientsAction implements Action {
+  readonly type = PatientActions.FetchPatients;
+}
+
+export class StoreBulkPatientsAction implements Action {
+  readonly type = PatientActions.StoreBulkPatients;
+
+  constructor(public payload: Patient[]) {}
 }

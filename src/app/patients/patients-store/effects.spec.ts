@@ -47,11 +47,11 @@ describe("PatientEffects", () => {
           a: new AddPatientAction(patientModelMock)
         });
         const effect = instantiateEffect(source);
-        patientServiceStub.create.and.returnValue(of({}));
+        patientServiceStub.create.and.returnValue(of({patient: patientModelMock}));
 
         // ASSERT
         const expected = cold("a", {
-          a: new AddPatientSuccessAction()
+          a: new AddPatientSuccessAction(patientModelMock)
         });
         expect(effect.addPatient$).toBeObservable(expected);
       });
@@ -100,7 +100,7 @@ describe("PatientEffects", () => {
   describe("addPatientSuccess$", () => {
     it("should show success message for new patient", async () => {
       // ARRANGE
-      const effect = instantiateEffect(of(new AddPatientSuccessAction()));
+      const effect = instantiateEffect(of(new AddPatientSuccessAction(patientModelMock)));
 
       // ACT
       await effect.addPatientSuccess$.subscribe();

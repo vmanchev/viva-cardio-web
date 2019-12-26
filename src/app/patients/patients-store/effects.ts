@@ -7,13 +7,16 @@ import {
   UpdatePatientAction,
   UpdatePatientSuccessAction,
   DeletePatientAction,
-  DeletePatientSuccessAction
+  DeletePatientSuccessAction,
+  FetchPatientsAction,
+  StoreBulkPatientsAction
 } from "./actions";
 import { switchMap, tap, map, catchError } from "rxjs/operators";
 import { MessageService } from "src/app/shared/message-service/message.service";
 import { Router } from "@angular/router";
 import { from, of } from "rxjs";
 import { PatientService } from "../patient.service";
+import { Patient } from "../patient.model";
 
 @Injectable()
 export class PatientEffects {
@@ -29,8 +32,8 @@ export class PatientEffects {
     ofType<AddPatientAction>(PatientActions.AddPatient),
     switchMap(action => {
       return this.patientService.create(action.payload).pipe(
-        switchMap(__ => {
-          return of(new AddPatientSuccessAction());
+        switchMap((response: any) => {
+          return of(new AddPatientSuccessAction(response.patient));
         })
       );
     })
@@ -83,6 +86,18 @@ export class PatientEffects {
     ofType<DeletePatientSuccessAction>(PatientActions.DeletePatientSuccess),
     tap(__ => {
       this.messageService.success("MESSAGE.SUCCESS_DELETE_PATIENT");
+    })
+  );
+
+  @Effect()
+  fetchPatients$ = this.actions$.pipe(
+    ofType<FetchPatientsAction>(PatientActions.FetchPatients),
+    switchMap(__ => {
+      return this.patientService.search().pipe(
+        switchMap((response: {patients: Patient[]}) => {
+          return of(new StoreBulkPatientsAction(response.patients));
+        })
+      );
     })
   );
 }

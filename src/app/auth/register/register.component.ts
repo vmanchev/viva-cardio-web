@@ -1,11 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "../user.service";
 import { UserFormService } from "../user-form.service";
 import { RegisterNewUserAction } from "../auth-store/actions";
 import { Store } from "@ngrx/store";
 import { State } from "src/app/app-store";
-import { MessageService } from "src/app/shared/message-service/message.service";
-import { Router } from "@angular/router";
+
 
 @Component({
   selector: "app-register",
