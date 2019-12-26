@@ -97,7 +97,7 @@ export class AuthEffects {
   failedLogin$ = this.actions$.pipe(
     ofType<FailedLoginAction>(AuthActions.FailedLogin),
     tap(__ => {
-      this.messageService.success("MESSAGE.ERROR_LOGIN");
+      this.messageService.error("MESSAGE.ERROR_LOGIN");
     })
   );
 
