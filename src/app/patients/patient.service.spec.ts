@@ -37,6 +37,9 @@ describe("PatientService", () => {
 
         // ASSERT
         const mockReq = httpMock.expectOne(environment.apiUrl + "/patient");
+
+        expect(mockReq.request.method).toBe('POST');
+        expect(mockReq.request.url).toMatch(/\/patient$/);
         expect(mockReq.request.body).toEqual(patientMock);
         httpMock.verify();
       }
@@ -54,6 +57,8 @@ describe("PatientService", () => {
         const mockReq = httpMock.expectOne(
           environment.apiUrl + "/patient/" + patientMock.id
         );
+        expect(mockReq.request.method).toBe('PUT');
+        expect(mockReq.request.url).toMatch(/\/patient\/123$/);
         expect(mockReq.request.body).toEqual(patientMock);
         httpMock.verify();
       }
@@ -73,7 +78,28 @@ describe("PatientService", () => {
         );
 
         expect(mockReq.request.body).toBeFalsy();
-        expect(mockReq.request.url).toMatch(/\/patient\/123/);
+        expect(mockReq.request.method).toBe('DELETE');
+        expect(mockReq.request.url).toMatch(/\/patient\/123$/);
+        httpMock.verify();
+      }
+    ));
+  });
+
+  describe("search", () => {
+    it("should perform a GET request to the search patient endpoint", inject(
+      [HttpTestingController, PatientService],
+      (httpMock: HttpTestingController, service: PatientService) => {
+        // ACT
+        service.search().subscribe();
+
+        // ASSERT
+        const mockReq = httpMock.expectOne(
+          environment.apiUrl + "/patient"
+        );
+
+        expect(mockReq.request.body).toBeFalsy();
+        expect(mockReq.request.method).toBe('GET');
+        expect(mockReq.request.url).toMatch(/\/patient$/);
         httpMock.verify();
       }
     ));

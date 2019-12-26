@@ -7,14 +7,17 @@ import {
   UpdatePatientAction,
   UpdatePatientSuccessAction,
   DeletePatientAction,
-  DeletePatientSuccessAction
+  DeletePatientSuccessAction,
+  FetchPatientsAction,
+  StoreBulkPatientsAction
 } from "./actions";
 import { of } from "rxjs";
 
 const patientServiceStub = jasmine.createSpyObj("PatientService", [
   "create",
   "update",
-  "delete"
+  "delete",
+  "search"
 ]);
 const messageServiceStub = jasmine.createSpyObj("MessageService", [
   "success",
@@ -47,7 +50,9 @@ describe("PatientEffects", () => {
           a: new AddPatientAction(patientModelMock)
         });
         const effect = instantiateEffect(source);
-        patientServiceStub.create.and.returnValue(of({patient: patientModelMock}));
+        patientServiceStub.create.and.returnValue(
+          of({ patient: patientModelMock })
+        );
 
         // ASSERT
         const expected = cold("a", {
@@ -95,12 +100,13 @@ describe("PatientEffects", () => {
       });
     });
   });
-  
 
   describe("addPatientSuccess$", () => {
     it("should show success message for new patient", async () => {
       // ARRANGE
-      const effect = instantiateEffect(of(new AddPatientSuccessAction(patientModelMock)));
+      const effect = instantiateEffect(
+        of(new AddPatientSuccessAction(patientModelMock))
+      );
 
       // ACT
       await effect.addPatientSuccess$.subscribe();
@@ -141,6 +147,34 @@ describe("PatientEffects", () => {
       expect(messageServiceStub.success).toHaveBeenCalledWith(
         "MESSAGE.SUCCESS_DELETE_PATIENT"
       );
+    });
+  });
+
+  describe("fetchPatients$", () => {
+    it("should use patientService search method", async () => {
+      // ARRANGE
+      const effect = instantiateEffect(of(new FetchPatientsAction()));
+
+      // ACT
+      await effect.fetchPatients$.subscribe();
+
+      // ASSERT
+      expect(patientServiceStub.search).toHaveBeenCalled();
+    });
+
+    it("should propagate the result using StoreBulkPatientsAction", () => {
+      // ARRANGE
+      patientServiceStub.search.and.returnValue(of({patients: [patientModelMock]}));
+      const source = cold("a", {
+        a: new FetchPatientsAction()
+      });
+      const effect = instantiateEffect(source);
+
+      // ASSERT
+      const expected = cold("a", {
+        a: new StoreBulkPatientsAction([patientModelMock])
+      });
+      expect(effect.fetchPatients$).toBeObservable(expected);
     });
   });
 });
