@@ -40,6 +40,8 @@
         "ADD_BLOOD_PRESSURE": "Add a new blood pressure reading"
     },
     "MESSAGE": {
-      "SUCCESS_REGISTRATION": "Your registration was successfull!"
+      "SUCCESS_REGISTRATION": "Your registration was successfull!",
+      "SUCCESS_LOGIN": "Successfull authentication!",
+      "ERROR_LOGIN": "Authentication failed!"
     }
 }

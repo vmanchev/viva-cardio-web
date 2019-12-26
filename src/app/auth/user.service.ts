@@ -17,4 +17,8 @@ export class UserService {
   public registration(user: User) {
     return this.http.post(environment.apiUrl + this.path, user);
   }
+
+  public login(user: User) {
+    return this.http.post(environment.apiUrl + this.path + '/login', user);
+  }
 }

@@ -29,7 +29,7 @@ describe("UserService", () => {
   ));
 
   describe("registration", () => {
-    it("should perform a POST request to the correct endpoint", inject(
+    it("should perform a POST request to the registration endpoint", inject(
       [HttpTestingController, UserService],
       (httpMock: HttpTestingController, service: UserService) => {
         // ACT
@@ -37,6 +37,21 @@ describe("UserService", () => {
 
         // ASSERT
         const mockReq = httpMock.expectOne(environment.apiUrl + "/user");
+        expect(mockReq.request.body).toEqual(userMock)
+        httpMock.verify();
+      }
+    ));
+  });
+
+  describe("login", () => {
+    it("should perform a POST request to the login endpoint", inject(
+      [HttpTestingController, UserService],
+      (httpMock: HttpTestingController, service: UserService) => {
+        // ACT
+        service.login(userMock).subscribe();
+
+        // ASSERT
+        const mockReq = httpMock.expectOne(environment.apiUrl + "/user/login");
         expect(mockReq.request.body).toEqual(userMock)
         httpMock.verify();
       }
