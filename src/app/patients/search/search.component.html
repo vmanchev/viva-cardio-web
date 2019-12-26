@@ -1,6 +1,7 @@
 <table mat-table [dataSource]="patients" class="mat-elevation-z8">
   
-  
+    <caption><h1>{{ 'NAVIGATION.PATIENTS.HOME' | translate }}</h1></caption>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>
         {{ "FORM.PATIENTS.NAME" | translate }}

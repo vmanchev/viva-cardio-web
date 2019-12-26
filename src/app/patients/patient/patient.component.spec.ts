@@ -3,11 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PatientComponent } from './patient.component';
 
 import { Pipe, PipeTransform, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { TranslateLoader, TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Action, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 
 @Pipe({
   name: "translate"
@@ -37,8 +39,15 @@ class FakeLoader implements TranslateLoader {
 describe('PatientComponent', () => {
   let component: PatientComponent;
   let fixture: ComponentFixture<PatientComponent>;
+  const dispatch: Subject<Action> = new Subject();
+  const destroy$ = new Subject();
+  let actual: Action[];
+  let resetSpy;
 
   beforeEach(async(() => {
+    actual = [];
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
+    
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -49,6 +58,13 @@ describe('PatientComponent', () => {
         })
       ],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: action => dispatch.next(action),
+            select: data => of(data)
+          }
+        },
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock }
       ],
@@ -61,6 +77,8 @@ describe('PatientComponent', () => {
     fixture = TestBed.createComponent(PatientComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    resetSpy = spyOn(component.formService.patientForm, "reset");
   });
 
   it('should create', () => {

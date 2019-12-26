@@ -140,8 +140,8 @@ describe("RegisterComponent", () => {
         // ARRANGE
         component.formService.userForm.setValue({
           email: "test@example.org",
-          password: "test",
-          confirmPassword: "test"
+          password: "test123",
+          confirmPassword: "test123"
         });
 
         // ACT

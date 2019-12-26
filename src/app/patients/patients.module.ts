@@ -1,12 +1,17 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { PatientsRoutingModule } from './patients-routing.module';
-import { SearchComponent } from './search/search.component';
-import { PatientComponent } from './patient/patient.component';
-import { MaterialModule } from '../material/material.module';
-import { TranslateModule } from '@ngx-translate/core';
-
+import { PatientsRoutingModule } from "./patients-routing.module";
+import { SearchComponent } from "./search/search.component";
+import { PatientComponent } from "./patient/patient.component";
+import { MaterialModule } from "../material/material.module";
+import { TranslateModule } from "@ngx-translate/core";
+import { ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from "../shared/shared.module";
+import { StoreModule } from "@ngrx/store";
+import * as fromPatients from "./patients-store/reducers";
+import { EffectsModule } from "@ngrx/effects";
+import { PatientEffects } from "./patients-store/effects";
 
 @NgModule({
   declarations: [SearchComponent, PatientComponent],
@@ -14,7 +19,14 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     PatientsRoutingModule,
     MaterialModule,
-    TranslateModule
+    ReactiveFormsModule,
+    TranslateModule,
+    SharedModule,
+    StoreModule.forFeature(
+      fromPatients.patientFeatureKey,
+      fromPatients.patientsStateReducer
+    ),
+    EffectsModule.forFeature([PatientEffects])
   ]
 })
-export class PatientsModule { }
+export class PatientsModule {}
