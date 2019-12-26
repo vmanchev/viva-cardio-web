@@ -15,7 +15,6 @@ import { MaterialModule } from "src/app/material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Store, Action } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
-import { Router } from "@angular/router";
 
 @Pipe({
   name: "translate"

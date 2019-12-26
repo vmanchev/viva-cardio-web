@@ -15,6 +15,7 @@ import { MaterialModule } from "src/app/material/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Action, Store } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Pipe({
   name: "translate"
@@ -54,6 +55,8 @@ describe("PatientComponent", () => {
 
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         MaterialModule,

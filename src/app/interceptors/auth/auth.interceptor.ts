@@ -12,6 +12,7 @@ import { first } from "rxjs/operators";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private token: string;
+  private subscription;
 
   private freeAccess = [
     { method: "POST", path: /\/user$/ },
@@ -21,7 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
   ];
 
   constructor(@Inject(AuthToken) private authToken$: Observable<string>) {
-    this.authToken$.pipe(first()).subscribe(token => (this.token = token));
+    this.subscription = this.authToken$.subscribe(token => {
+      this.token = token;
+
+      if(token && this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    });
   }
 
   intercept(
