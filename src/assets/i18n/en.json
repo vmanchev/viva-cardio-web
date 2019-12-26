@@ -42,6 +42,8 @@
     "MESSAGE": {
       "SUCCESS_REGISTRATION": "Your registration was successfull!",
       "SUCCESS_LOGIN": "Successfull authentication!",
-      "ERROR_LOGIN": "Authentication failed!"
+      "SUCCESS_FORGOT": "New password has been emailed to you!",
+      "ERROR_LOGIN": "Authentication failed!",
+      "ERROR_FORGOT": "Unknown user!"
     }
 }

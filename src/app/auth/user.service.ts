@@ -21,4 +21,8 @@ export class UserService {
   public login(user: User) {
     return this.http.post(environment.apiUrl + this.path + '/login', user);
   }
+
+  public forgot(user: Partial<User>) {
+    return this.http.post(environment.apiUrl + this.path + '/forgot', user);
+  }
 }
