@@ -34,7 +34,10 @@ export class ForgotComponent implements OnDestroy {
     this.userService
       .forgot(this.formService.userForm.value)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(this.successHandler.bind(this), this.errorHandler.bind(this));
+      .subscribe(
+        success => this.successHandler(success),
+        error => this.errorHandler(error)
+      );
   }
 
   private successHandler(response: any) {
