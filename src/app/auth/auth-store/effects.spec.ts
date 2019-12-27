@@ -31,6 +31,8 @@ const userModelMock = {
   password: "qwerty"
 };
 
+const storageServiceStub = jasmine.createSpyObj("StorageService", ["add"]);
+
 function instantiateEffect(source) {
   const action = new Actions(source);
 
@@ -38,7 +40,8 @@ function instantiateEffect(source) {
     action,
     userServiceStub,
     messageServiceStub,
-    routerStub
+    routerStub,
+    storageServiceStub
   );
 }
 
@@ -67,6 +70,23 @@ describe("AuthEffects", () => {
 
   describe("authenticateUser$", () => {
     describe("on success", () => {
+      it("should save the token in localStorage under 'token' key", async () => {
+        // ARRANGE
+        userServiceStub.login.and.returnValue(of({ token: "accessTokenMock" }));
+        const effect = instantiateEffect(
+          of(new AuthenticateUserAction(userModelMock))
+        );
+
+        // ACT
+        await effect.authenticateUser$.subscribe();
+
+        // ASSERT
+        expect(storageServiceStub.add).toHaveBeenCalledWith(
+          "token",
+          "accessTokenMock"
+        );
+      });
+
       it("should dispatch AddTokenAction and SuccessfullLoginAction", () => {
         // ARRANGE
         const source = cold("a", {

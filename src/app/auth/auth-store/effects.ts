@@ -17,6 +17,7 @@ import { UserService } from "../user.service";
 import { MessageService } from "src/app/shared/message-service/message.service";
 import { Router } from "@angular/router";
 import { from, of } from "rxjs";
+import { StorageService } from "src/app/shared/storage-service/storage.service";
 
 @Injectable()
 export class AuthEffects {
@@ -24,7 +25,8 @@ export class AuthEffects {
     private actions$: Actions,
     private userService: UserService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {}
 
   @Effect()
@@ -48,6 +50,8 @@ export class AuthEffects {
     switchMap(action => {
       return this.userService.login(action.payload).pipe(
         switchMap((response: any) => {
+          this.storageService.add("token", response.token);
+
           return from([
             new AddTokenAction(response.token),
             new SuccessfullLoginAction()
