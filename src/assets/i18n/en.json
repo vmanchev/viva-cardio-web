@@ -1,52 +1,58 @@
 {
-    "NAVIGATION": {
-        "NEW_REGISTRATION": "Signup",
-        "LOGIN": "Login",
-        "LOGOUT": "Logout",
-        "FORGOT_PASSWORD": "Forgotten password?",
-        "BLOOD_PRESSURE": {
-            "HOME": "Blood pressure",
-            "READING": "Reading"
-        },
-        "PATIENTS": {
-            "HOME": "Patients",
-            "ADD_NEW": "Add patient"
-        }
+  "NAVIGATION": {
+    "NEW_REGISTRATION": "Signup",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FORGOT_PASSWORD": "Forgotten password?",
+    "BLOOD_PRESSURE": {
+      "HOME": "Blood pressure",
+      "READING": "Reading"
     },
-    "FORM": {
-        "EMAIL": "Email address",
-        "PASSWORD": "Password",
-        "CONFIRM_PASSWORD": "Confirm password",
-        "BLOOD_PRESSURE": {
-            "SYS": "Systolic",
-            "DIA": "Diastolic",
-            "PULSE": "Pulse"
-        },
-        "DATE_TIME": "Date & time",
-        "PATIENTS": {
-            "NAME": "Name"
-        },
-        "ERROR": {
-          "REQUIRED": "Required field",
-          "INVALID_EMAIL": "Invalid email address",
-          "PASSWORDS_MISMATCH": "Passwords mismatch!",
-          "MIN_LENGTH": "Min {{ minLength }} characters!"
-        }
+    "DIABETES": {
+      "HOME": "Diabetes"
     },
-    "BUTTON": {
-        "SUBMIT": "Submit",
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+    "WEIGHT": {
+      "HOME": "Weight"
     },
-    "ACTION": {
-        "ACTIONS": "Actions",
-        "ADD_BLOOD_PRESSURE": "Add a new blood pressure reading"
-    },
-    "MESSAGE": {
-      "SUCCESS_REGISTRATION": "Your registration was successfull!",
-      "SUCCESS_LOGIN": "Successfull authentication!",
-      "SUCCESS_FORGOT": "New password has been emailed to you!",
-      "ERROR_LOGIN": "Authentication failed!",
-      "ERROR_FORGOT": "Unknown user!"
+    "PATIENTS": {
+      "HOME": "Patients",
+      "ADD_NEW": "Add patient"
     }
+  },
+  "FORM": {
+    "EMAIL": "Email address",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "BLOOD_PRESSURE": {
+      "SYS": "Systolic",
+      "DIA": "Diastolic",
+      "PULSE": "Pulse"
+    },
+    "DATE_TIME": "Date & time",
+    "PATIENTS": {
+      "NAME": "Name"
+    },
+    "ERROR": {
+      "REQUIRED": "Required field",
+      "INVALID_EMAIL": "Invalid email address",
+      "PASSWORDS_MISMATCH": "Passwords mismatch!",
+      "MIN_LENGTH": "Min {{ minLength }} characters!"
+    }
+  },
+  "BUTTON": {
+    "SUBMIT": "Submit",
+    "SAVE": "Save",
+    "CANCEL": "Cancel"
+  },
+  "ACTION": {
+    "ACTIONS": "Actions",
+    "ADD_BLOOD_PRESSURE": "Add a new blood pressure reading"
+  },
+  "MESSAGE": {
+    "SUCCESS_REGISTRATION": "Your registration was successfull!",
+    "SUCCESS_LOGIN": "Successfull authentication!",
+    "SUCCESS_FORGOT": "New password has been emailed to you!",
+    "ERROR_LOGIN": "Authentication failed!",
+    "ERROR_FORGOT": "Unknown user!"
+  }
 }

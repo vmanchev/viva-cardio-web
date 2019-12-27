@@ -1,1 +1,32 @@
-<p>profile works!</p>
+<div *ngIf="patient">
+  <h1>{{ patient.name }}</h1>
+  <mat-divider></mat-divider>
+</div>
+
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="flaticon-heart"></i>
+      {{ "NAVIGATION.BLOOD_PRESSURE.HOME" | translate }}
+    </ng-template>
+    <ng-template matTabContent>
+      <app-blood-pressure-search></app-blood-pressure-search>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="flaticon-diabetes"></i>
+      {{ "NAVIGATION.DIABETES.HOME" | translate }}
+    </ng-template>
+    DIABETES
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="flaticon-weight"></i>
+      {{ "NAVIGATION.WEIGHT.HOME" | translate }}
+    </ng-template>
+    WEIGHT
+  </mat-tab>
+</mat-tab-group>

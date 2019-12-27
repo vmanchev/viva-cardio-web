@@ -5,6 +5,7 @@ import { StorageService } from "./shared/storage-service/storage.service";
 import { Store } from "@ngrx/store";
 import { State } from "./app-store";
 import { AddTokenAction, SuccessfullLoginAction } from "./auth/auth-store/actions";
+import { FetchPatientsAction } from './patients/patients-store/actions';
 
 @Component({
   selector: "app-root",
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
 
     if (previousToken) {
       this.store.dispatch(new AddTokenAction(previousToken));
-      this.store.dispatch(new SuccessfullLoginAction());
+      this.store.dispatch(new FetchPatientsAction());
+      // this.store.dispatch(new SuccessfullLoginAction());
     }
   }
 }

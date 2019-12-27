@@ -1,3 +1,21 @@
+:host {
+  display: block;
+  width: 95%;
+  margin: 16px auto;
+
+  @media screen and (min-width: 768px) {
+    width: 65%;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 50%;
+  }
+
+  @media screen and (min-width: 1600px) {
+    width: 35%;
+  }
+}
+
 table {
   width: 100%;
 }

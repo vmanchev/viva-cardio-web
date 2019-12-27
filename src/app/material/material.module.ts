@@ -3,13 +3,13 @@ import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
-import { MatInputModule } from "@angular/material";
+import { MatInputModule, MatTableModule } from "@angular/material";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from "@angular/material/grid-list";
-import { MatTableModule } from "@angular/material/table";
+import { MatTabsModule } from "@angular/material/tabs";
 import { MatDividerModule } from "@angular/material/divider";
 import {
   MatSnackBarModule,
@@ -29,6 +29,7 @@ import {
     MatMenuModule,
     MatSnackBarModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule
   ],
   providers: [

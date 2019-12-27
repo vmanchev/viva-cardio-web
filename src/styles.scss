@@ -77,3 +77,10 @@ caption {
 mat-form-field.mat-form-field-should-float label {
   font-size: 18px;
 }
+
+.mat-tab-label-content {
+  [class^="flaticon-"]:before {
+    margin-left: 0;
+    margin-right: 16px;
+  }
+}

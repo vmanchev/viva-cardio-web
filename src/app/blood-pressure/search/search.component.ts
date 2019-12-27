@@ -5,11 +5,11 @@ import { first, takeLast, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 
 @Component({
-  selector: "app-search",
+  selector: "app-blood-pressure-search",
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.scss"]
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class BloodPressureSearchComponent implements OnInit, OnDestroy {
   patientId: number;
   private destroy$ = new Subject();
 

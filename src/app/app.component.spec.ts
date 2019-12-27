@@ -17,6 +17,7 @@ import { Action, Store } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
 import { AuthActions } from "./auth/auth-store/actions";
 import { StorageService } from "./shared/storage-service/storage.service";
+import { PatientActions } from "./patients/patients-store/actions";
 
 @Pipe({
   name: "translate"
@@ -117,7 +118,7 @@ describe("AppComponent", () => {
   });
 
   describe("when auth token is found in local storage", () => {
-    it("should dispatch AddTokenAction and SuccessfullLogin", () => {
+    it("should dispatch AddTokenAction and FetchPatientsAction", () => {
       // ARRANGE
       storageServiceMock.get.and.returnValue("token");
 
@@ -126,7 +127,7 @@ describe("AppComponent", () => {
 
       // ASSERT
       expect(actual[0].type).toEqual(AuthActions.AddToken);
-      expect(actual[1].type).toEqual(AuthActions.SuccessfullLogin);
+      expect(actual[1].type).toEqual(PatientActions.FetchPatients);
     });
   });
 });

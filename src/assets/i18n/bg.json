@@ -1,52 +1,58 @@
 {
-    "NAVIGATION": {
-        "NEW_REGISTRATION": "Регистрация",
-        "LOGIN": "Вход",
-        "LOGOUT": "Изход",
-        "FORGOT_PASSWORD": "Забравена парола?",
-        "BLOOD_PRESSURE": {
-            "HOME": "Високо кръвно",
-            "READING": "Запис"
-        },
-        "PATIENTS": {
-            "HOME": "Пациенти",
-            "ADD_NEW": "Добави нов пациент"
-        }
+  "NAVIGATION": {
+    "NEW_REGISTRATION": "Регистрация",
+    "LOGIN": "Вход",
+    "LOGOUT": "Изход",
+    "FORGOT_PASSWORD": "Забравена парола?",
+    "BLOOD_PRESSURE": {
+      "HOME": "Кръвно налягане",
+      "READING": "Запис"
     },
-    "FORM": {
-        "EMAIL": "Електронна поща",
-        "PASSWORD": "Парола",
-        "CONFIRM_PASSWORD": "Повтори паролата",
-        "BLOOD_PRESSURE": {
-            "SYS": "Систолно (горно)",
-            "DIA": "Диастолно (долно)",
-            "PULSE": "Пулс"
-        },
-        "DATE_TIME": "Дата и час",
-        "PATIENTS": {
-            "NAME": "Име"
-        },
-        "ERROR": {
-          "REQUIRED": "Задължително поле",
-          "INVALID_EMAIL": "Невалиден адрес на ел. поща",
-          "PASSWORDS_MISMATCH": "Паролите не съвпадат!",
-          "MIN_LENGTH": "Минимум {{ minLength }} символа!"
-        }
+    "DIABETES": {
+      "HOME": "Кръвна захар"
     },
-    "BUTTON": {
-        "SUBMIT": "Изпрати",
-        "SAVE": "Запази",
-        "CANCEL": "Откажи"
+    "WEIGHT": {
+      "HOME": "Тегло"
     },
-    "ACTION": {
-        "ACTIONS": "Действия",
-        "ADD_BLOOD_PRESSURE": "Добави нов запис за кръвно налягане"
-    },
-    "MESSAGE": {
-      "SUCCESS_REGISTRATION": "Вашата регистрация приключи успешно!",
-      "SUCCESS_LOGIN": "Успешна идентификация!",
-      "SUCCESS_FORGOT": "Изпратихме Ви нова парола!",
-      "ERROR_LOGIN": "Неуспешна идентификация!",
-      "ERROR_FORGOT": "Несъществуващ потребител!"
+    "PATIENTS": {
+      "HOME": "Пациенти",
+      "ADD_NEW": "Добави нов пациент"
     }
+  },
+  "FORM": {
+    "EMAIL": "Електронна поща",
+    "PASSWORD": "Парола",
+    "CONFIRM_PASSWORD": "Повтори паролата",
+    "BLOOD_PRESSURE": {
+      "SYS": "Систолно (горно)",
+      "DIA": "Диастолно (долно)",
+      "PULSE": "Пулс"
+    },
+    "DATE_TIME": "Дата и час",
+    "PATIENTS": {
+      "NAME": "Име"
+    },
+    "ERROR": {
+      "REQUIRED": "Задължително поле",
+      "INVALID_EMAIL": "Невалиден адрес на ел. поща",
+      "PASSWORDS_MISMATCH": "Паролите не съвпадат!",
+      "MIN_LENGTH": "Минимум {{ minLength }} символа!"
+    }
+  },
+  "BUTTON": {
+    "SUBMIT": "Изпрати",
+    "SAVE": "Запази",
+    "CANCEL": "Откажи"
+  },
+  "ACTION": {
+    "ACTIONS": "Действия",
+    "ADD_BLOOD_PRESSURE": "Добави нов запис за кръвно налягане"
+  },
+  "MESSAGE": {
+    "SUCCESS_REGISTRATION": "Вашата регистрация приключи успешно!",
+    "SUCCESS_LOGIN": "Успешна идентификация!",
+    "SUCCESS_FORGOT": "Изпратихме Ви нова парола!",
+    "ERROR_LOGIN": "Неуспешна идентификация!",
+    "ERROR_FORGOT": "Несъществуващ потребител!"
+  }
 }

@@ -15,11 +15,13 @@ import { PatientEffects } from "./patients-store/effects";
 import { PatientsToken, PatientCloseModalToken } from "./patients-store/tokens";
 import { patientsSelector, closeModalSelector } from "./patients-store/selectors";
 import { ProfileComponent } from "./profile/profile.component";
+import { BloodPressureModule } from '../blood-pressure/blood-pressure.module';
 
 @NgModule({
   declarations: [SearchComponent, PatientComponent, ProfileComponent],
   imports: [
     CommonModule,
+    BloodPressureModule,
     PatientsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
