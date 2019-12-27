@@ -1,10 +1,10 @@
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { Component } from "@angular/core";
 
 import { Pipe, PipeTransform, Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import {
   TranslateLoader,
   TranslateModule,
@@ -13,6 +13,10 @@ import {
 } from "@ngx-translate/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "src/app/material/material.module";
+import { Action, Store } from "@ngrx/store";
+import { takeUntil } from "rxjs/operators";
+import { AuthActions } from "./auth/auth-store/actions";
+import { StorageService } from "./shared/storage-service/storage.service";
 
 @Pipe({
   name: "translate"
@@ -25,8 +29,11 @@ export class TranslatePipeMock implements PipeTransform {
   }
 }
 
-const translateServiceMock = jasmine.createSpyObj('TranslateService', ['get', 'setDefaultLang']);
-translateServiceMock.get.and.returnValue(of(''));
+const translateServiceMock = jasmine.createSpyObj("TranslateService", [
+  "get",
+  "setDefaultLang"
+]);
+translateServiceMock.get.and.returnValue(of(""));
 
 class FakeLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
@@ -46,8 +53,19 @@ class HeaderComponentMock {}
 })
 class FooterComponentMock {}
 
+const storageServiceMock = jasmine.createSpyObj("StorageService", ["get"]);
+
 describe("AppComponent", () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  const dispatch: Subject<Action> = new Subject();
+  const destroy$ = new Subject();
+  let actual: Action[];
+
   beforeEach(async(() => {
+    actual = [];
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -58,8 +76,16 @@ describe("AppComponent", () => {
         })
       ],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: action => dispatch.next(action),
+            select: data => of(data)
+          }
+        },
         { provide: TranslateService, useValue: translateServiceMock },
-        { provide: TranslatePipe, useClass: TranslatePipeMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        { provide: StorageService, useValue: storageServiceMock }
       ],
       declarations: [
         AppComponent,
@@ -70,17 +96,37 @@ describe("AppComponent", () => {
     }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  afterAll(() => {
+    destroy$.next();
+    destroy$.complete();
+  });
+
   it("should create the app", () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should set the default language', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    app.ngOnInit();
-    expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith('bg')
+  it("should set the default language", () => {
+    component.ngOnInit();
+    expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith("bg");
   });
 
+  describe("when auth token is found in local storage", () => {
+    it("should dispatch AddTokenAction and SuccessfullLogin", () => {
+      // ARRANGE
+      storageServiceMock.get.and.returnValue("token");
+
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(actual[0].type).toEqual(AuthActions.AddToken);
+      expect(actual[1].type).toEqual(AuthActions.SuccessfullLogin);
+    });
+  });
 });
