@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import '~@angular/material/theming';
+
+$custom-typography: mat-typography-config($font-family: '"Philosopher", sans-serif;');
+@include mat-core($custom-typography);
+
 @import 'vars';
 @import 'mixins';
+@import 'assets/flaticon/flaticon.css';
 
 html,
 body {
@@ -66,4 +72,8 @@ caption {
 
 .mat-card-title {
   font-weight: 300;
+}
+
+mat-form-field.mat-form-field-should-float label {
+  font-size: 18px;
 }
