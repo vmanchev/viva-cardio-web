@@ -11,7 +11,8 @@ export const AuthActions = {
   FailedLogin: "[AuthActions] Failed login",
   ForgotPasswordRequest: "[AuthActions] Forgot password request",
   ForgotPasswordSuccess: "[AuthActions] Forgot password - success",
-  ForgotPasswordFailure: "[AuthActions] Forgot password - failure"
+  ForgotPasswordFailure: "[AuthActions] Forgot password - failure",
+  Logout: "[AuthActions] Logout"
 };
 
 export class AddTokenAction implements Action {
@@ -56,4 +57,8 @@ export class ForgotPasswordSuccessAction implements Action {
 
 export class ForgotPasswordFailureAction implements Action {
   readonly type = AuthActions.ForgotPasswordFailure;
+}
+
+export class LogoutAction implements Action {
+  readonly type = AuthActions.Logout;
 }

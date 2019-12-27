@@ -2,6 +2,7 @@
     "NAVIGATION": {
         "NEW_REGISTRATION": "Signup",
         "LOGIN": "Login",
+        "LOGOUT": "Logout",
         "FORGOT_PASSWORD": "Forgotten password?",
         "BLOOD_PRESSURE": {
             "HOME": "Blood pressure",

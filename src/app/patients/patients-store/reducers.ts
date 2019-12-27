@@ -6,8 +6,8 @@ import {
 } from "./actions";
 import { ActionsMap } from "src/app/app-store/actions-map";
 import { Patient } from "../patient.model";
-import * as _ from 'lodash';
-
+import * as _ from "lodash";
+import { LogoutAction, AuthActions } from "src/app/auth/auth-store/actions";
 
 export const patientFeatureKey = "patients";
 
@@ -23,7 +23,7 @@ function addPatientSuccess(
   let items = [...state.items];
   items.push(action.payload);
 
-  items = _.sortBy(items, 'name');
+  items = _.sortBy(items, "name");
 
   return {
     ...state,
@@ -40,7 +40,7 @@ function storeBulkPatients(
   }
 
   let items = [...state.items].concat(action.payload);
-  items = _.sortBy(items, 'name');
+  items = _.sortBy(items, "name");
 
   return {
     ...state,
@@ -58,10 +58,18 @@ function closeModal(
   return newState;
 }
 
+function logout(state: PatientsState, action: LogoutAction): PatientsState {
+  return {
+    items: [],
+    closeModal: false
+  };
+}
+
 const reducerMap: ActionsMap<PatientsState> = {
   [PatientActions.AddPatientSuccess]: addPatientSuccess,
   [PatientActions.StoreBulkPatients]: storeBulkPatients,
-  [PatientActions.CloseModal]: closeModal
+  [PatientActions.CloseModal]: closeModal,
+  [AuthActions.Logout]: logout
 };
 
 export function patientsStateReducer(

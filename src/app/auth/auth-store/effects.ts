@@ -10,7 +10,8 @@ import {
   FailedLoginAction,
   ForgotPasswordRequestAction,
   ForgotPasswordSuccessAction,
-  ForgotPasswordFailureAction
+  ForgotPasswordFailureAction,
+  LogoutAction
 } from "./actions";
 import { switchMap, tap, map, catchError, delay } from "rxjs/operators";
 import { UserService } from "../user.service";
@@ -120,6 +121,15 @@ export class AuthEffects {
     ofType<ForgotPasswordFailureAction>(AuthActions.ForgotPasswordFailure),
     tap(__ => {
       this.messageService.error("MESSAGE.ERROR_FORGOT");
+    })
+  );
+
+  @Effect({ dispatch: false })
+  logout$ = this.actions$.pipe(
+    ofType<LogoutAction>(AuthActions.Logout),
+    tap(__ => {
+      this.storageService.delete('token');
+      this.router.navigate(["/"]);
     })
   );
 }

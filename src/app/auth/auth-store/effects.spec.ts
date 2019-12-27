@@ -10,7 +10,8 @@ import {
   FailedLoginAction,
   ForgotPasswordSuccessAction,
   ForgotPasswordFailureAction,
-  ForgotPasswordRequestAction
+  ForgotPasswordRequestAction,
+  LogoutAction
 } from "./actions";
 import { of, throwError, ReplaySubject } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -31,7 +32,10 @@ const userModelMock = {
   password: "qwerty"
 };
 
-const storageServiceStub = jasmine.createSpyObj("StorageService", ["add"]);
+const storageServiceStub = jasmine.createSpyObj("StorageService", [
+  "add",
+  "delete"
+]);
 
 function instantiateEffect(source) {
   const action = new Actions(source);
@@ -189,28 +193,29 @@ describe("AuthEffects", () => {
   });
 
   describe("successfullLogin$", () => {
-    it("should show success login message", async () => {
+    it("should show success login message", () => {
       // ARRANGE
       const effect = instantiateEffect(of(new SuccessfullLoginAction()));
 
       // ACT
-      await effect.successfullLogin$.subscribe();
-
-      // ASSERT
-      expect(messageServiceStub.success).toHaveBeenCalledWith(
-        "MESSAGE.SUCCESS_LOGIN"
-      );
+      effect.successfullLogin$.subscribe(() => {
+        // ASSERT
+        expect(messageServiceStub.success).toHaveBeenCalledWith(
+          "MESSAGE.SUCCESS_LOGIN"
+        );
+      });
     });
 
-    it("should redirect the user to /patients", async () => {
+    it("should redirect the user to /patients", () => {
       // ARRANGE
       const effect = instantiateEffect(of(new SuccessfullLoginAction()));
 
       // ACT
-      await effect.successfullLogin$.subscribe();
+      effect.successfullLogin$.subscribe(() => {
+        // ASSERT
+        expect(routerStub.navigate).toHaveBeenCalledWith(["/patients"]);
+      });
 
-      // ASSERT
-      expect(routerStub.navigate).toHaveBeenCalledWith(["/patients"]);
     });
   });
 
@@ -267,6 +272,30 @@ describe("AuthEffects", () => {
       expect(messageServiceStub.error).toHaveBeenCalledWith(
         "MESSAGE.ERROR_FORGOT"
       );
+    });
+  });
+
+  describe("logout$", () => {
+    it("should delete token from local storage", async () => {
+      // ARRANGE
+      const effect = instantiateEffect(of(new LogoutAction()));
+
+      // ACT
+      await effect.logout$.subscribe();
+
+      // ASSERT
+      expect(storageServiceStub.delete).toHaveBeenCalledWith("token");
+    });
+
+    it("should redirect to home page", async () => {
+      // ARRANGE
+      const effect = instantiateEffect(of(new LogoutAction()));
+
+      // ACT
+      await effect.logout$.subscribe();
+
+      // ASSERT
+      expect(routerStub.navigate).toHaveBeenCalledWith(["/"]);
     });
   });
 });

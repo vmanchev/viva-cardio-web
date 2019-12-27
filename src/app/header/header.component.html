@@ -31,6 +31,10 @@
         <mat-icon>playlist_add</mat-icon>
         <span>{{ "NAVIGATION.BLOOD_PRESSURE.READING" | translate }}</span>
       </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>{{ "NAVIGATION.LOGOUT" | translate }}</span>
+      </button>
     </mat-menu>
 
     <mat-menu #languageMenu="matMenu">

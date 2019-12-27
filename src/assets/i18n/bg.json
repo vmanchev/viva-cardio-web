@@ -2,6 +2,7 @@
     "NAVIGATION": {
         "NEW_REGISTRATION": "Регистрация",
         "LOGIN": "Вход",
+        "LOGOUT": "Изход",
         "FORGOT_PASSWORD": "Забравена парола?",
         "BLOOD_PRESSURE": {
             "HOME": "Високо кръвно",
