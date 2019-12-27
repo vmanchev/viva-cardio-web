@@ -12,7 +12,7 @@ import {
   ForgotPasswordSuccessAction,
   ForgotPasswordFailureAction
 } from "./actions";
-import { switchMap, tap, map, catchError } from "rxjs/operators";
+import { switchMap, tap, map, catchError, delay } from "rxjs/operators";
 import { UserService } from "../user.service";
 import { MessageService } from "src/app/shared/message-service/message.service";
 import { Router } from "@angular/router";
@@ -91,6 +91,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   successfullLogin$ = this.actions$.pipe(
     ofType<SuccessfullLoginAction>(AuthActions.SuccessfullLogin),
+    delay(0), // to make sure translations are loaded
     tap(__ => {
       this.messageService.success("MESSAGE.SUCCESS_LOGIN");
       this.router.navigate(["/patients"]);
