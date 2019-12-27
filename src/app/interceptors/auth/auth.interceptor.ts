@@ -5,14 +5,14 @@ import {
   HttpEvent,
   HttpRequest
 } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { AuthToken } from "src/app/auth/auth-store/tokens";
 import { first } from "rxjs/operators";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private token: string;
-  private subscription;
+  private subscription: Subscription;
 
   private freeAccess = [
     { method: "POST", path: /\/user$/ },

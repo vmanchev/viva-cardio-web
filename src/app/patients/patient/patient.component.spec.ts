@@ -15,7 +15,9 @@ import { MaterialModule } from "src/app/material/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Action, Store } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { PatientCloseModalToken } from "../patients-store/tokens";
 
 @Pipe({
   name: "translate"
@@ -41,6 +43,10 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
+const matDialogRefMock = jasmine.createSpyObj("MatDialogRef", ["close"]);
+
+const matDialogDataMock = {};
+
 describe("PatientComponent", () => {
   let component: PatientComponent;
   let fixture: ComponentFixture<PatientComponent>;
@@ -48,6 +54,7 @@ describe("PatientComponent", () => {
   const destroy$ = new Subject();
   let actual: Action[];
   let resetSpy;
+  let patientCloseModalTokenMock = of({});
 
   beforeEach(async(() => {
     actual = [];
@@ -73,7 +80,13 @@ describe("PatientComponent", () => {
           }
         },
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: TranslatePipe, useClass: TranslatePipeMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        { provide: MatDialogRef, useValue: matDialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: matDialogDataMock },
+        {
+          provide: PatientCloseModalToken,
+          useValue: patientCloseModalTokenMock
+        }
       ],
       declarations: [PatientComponent, TranslatePipeMock]
     }).compileComponents();
@@ -94,6 +107,19 @@ describe("PatientComponent", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  describe("ngOnInit", () => {
+    it("should close the modal when close flag is true", () => {
+      // ARRANGE
+      patientCloseModalTokenMock = of(true);
+
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(matDialogRefMock.close).toHaveBeenCalled();
+    });
   });
 
   describe("formHandler", () => {

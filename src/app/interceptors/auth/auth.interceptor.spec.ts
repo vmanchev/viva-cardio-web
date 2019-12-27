@@ -1,10 +1,10 @@
 import { AuthInterceptor } from "./auth.interceptor";
 import { Subject, of } from "rxjs";
 
-describe("Auth interceptor", () => {
-  let token;
-  const nextHandlerSpy = jasmine.createSpy("handleSpy", (request) => {});
+let token;
+const nextHandlerSpy = jasmine.createSpy("handleSpy", request => {});
 
+describe("Auth interceptor", () => {
   it("should not add an access token for new user registration request", () => {
     // ARRANGE
     const interceptor = new AuthInterceptor(of(token));
@@ -55,7 +55,7 @@ describe("Auth interceptor", () => {
 
   it("should add an access token for protected paths", () => {
     // ARRANGE
-    const interceptor = new AuthInterceptor(of('qwerty'));
+    const interceptor = new AuthInterceptor(of("qwerty"));
     const originalRequest = {
       clone: arg => arg,
       method: "POST",
@@ -66,7 +66,8 @@ describe("Auth interceptor", () => {
     interceptor.intercept(originalRequest, { handle: nextHandlerSpy } as any);
 
     // ASSERT
-    expect(nextHandlerSpy).toHaveBeenCalledWith({ setHeaders: { Authorization: 'Bearer qwerty' } });
+    expect(nextHandlerSpy).toHaveBeenCalledWith({
+      setHeaders: { Authorization: "Bearer qwerty" }
+    });
   });
-
 });

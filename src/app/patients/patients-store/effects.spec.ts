@@ -9,7 +9,8 @@ import {
   DeletePatientAction,
   DeletePatientSuccessAction,
   FetchPatientsAction,
-  StoreBulkPatientsAction
+  StoreBulkPatientsAction,
+  CloseModalAction
 } from "./actions";
 import { of } from "rxjs";
 
@@ -55,8 +56,9 @@ describe("PatientEffects", () => {
         );
 
         // ASSERT
-        const expected = cold("a", {
-          a: new AddPatientSuccessAction(patientModelMock)
+        const expected = cold("(ab)", {
+          a: new AddPatientSuccessAction(patientModelMock),
+          b: new CloseModalAction(true)
         });
         expect(effect.addPatient$).toBeObservable(expected);
       });
@@ -153,6 +155,9 @@ describe("PatientEffects", () => {
   describe("fetchPatients$", () => {
     it("should use patientService search method", async () => {
       // ARRANGE
+      patientServiceStub.search.and.returnValue(
+        of({ patients: [patientModelMock] })
+      );
       const effect = instantiateEffect(of(new FetchPatientsAction()));
 
       // ACT
@@ -164,7 +169,9 @@ describe("PatientEffects", () => {
 
     it("should propagate the result using StoreBulkPatientsAction", () => {
       // ARRANGE
-      patientServiceStub.search.and.returnValue(of({patients: [patientModelMock]}));
+      patientServiceStub.search.and.returnValue(
+        of({ patients: [patientModelMock] })
+      );
       const source = cold("a", {
         a: new FetchPatientsAction()
       });
