@@ -12,11 +12,12 @@ import { StoreModule, Store } from "@ngrx/store";
 import * as fromPatients from "./patients-store/reducers";
 import { EffectsModule } from "@ngrx/effects";
 import { PatientEffects } from "./patients-store/effects";
-import { PatientsToken } from './patients-store/tokens';
-import { patientsSelector } from './patients-store/selectors';
+import { PatientsToken, PatientCloseModalToken } from "./patients-store/tokens";
+import { patientsSelector, closeModalSelector } from "./patients-store/selectors";
+import { ProfileComponent } from "./profile/profile.component";
 
 @NgModule({
-  declarations: [SearchComponent, PatientComponent],
+  declarations: [SearchComponent, PatientComponent, ProfileComponent],
   imports: [
     CommonModule,
     PatientsRoutingModule,
@@ -34,6 +35,11 @@ import { patientsSelector } from './patients-store/selectors';
     {
       provide: PatientsToken,
       useFactory: store => store.select(patientsSelector),
+      deps: [Store]
+    },
+    {
+      provide: PatientCloseModalToken,
+      useFactory: store => store.select(closeModalSelector),
       deps: [Store]
     }
   ]

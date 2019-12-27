@@ -1,6 +1,8 @@
 <mat-card *ngFor="let patient of patients">
   <mat-card-header>
-    <mat-card-title>{{ patient.name }}</mat-card-title>
+    <mat-card-title>
+      <a [routerLink]="['/patient', patient.id]">{{ patient.name }}</a>
+    </mat-card-title>
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-card-actions>
@@ -9,3 +11,8 @@
     <button mat-icon-button><i class="flaticon-diabetes"></i></button>
   </mat-card-actions>
 </mat-card>
+
+
+<button mat-fab color="primary" (click)="addNewPatientDialog()">
+  <mat-icon>add</mat-icon>
+</button>

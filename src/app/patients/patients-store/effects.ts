@@ -9,7 +9,8 @@ import {
   DeletePatientAction,
   DeletePatientSuccessAction,
   FetchPatientsAction,
-  StoreBulkPatientsAction
+  StoreBulkPatientsAction,
+  CloseModalAction
 } from "./actions";
 import { switchMap, tap, map, catchError } from "rxjs/operators";
 import { MessageService } from "src/app/shared/message-service/message.service";
@@ -33,7 +34,10 @@ export class PatientEffects {
     switchMap(action => {
       return this.patientService.create(action.payload).pipe(
         switchMap((response: any) => {
-          return of(new AddPatientSuccessAction(response.patient));
+          return from([
+            new AddPatientSuccessAction(response.patient),
+            new CloseModalAction(true)
+          ]);
         })
       );
     })
@@ -94,7 +98,7 @@ export class PatientEffects {
     ofType<FetchPatientsAction>(PatientActions.FetchPatients),
     switchMap(__ => {
       return this.patientService.search().pipe(
-        switchMap((response: {patients: Patient[]}) => {
+        switchMap((response: { patients: Patient[] }) => {
           return of(new StoreBulkPatientsAction(response.patients));
         })
       );

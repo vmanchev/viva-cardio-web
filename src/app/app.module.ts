@@ -24,6 +24,7 @@ import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
+import { PatientComponent } from './patients/patient/patient.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -63,6 +64,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
+  entryComponents: [PatientComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

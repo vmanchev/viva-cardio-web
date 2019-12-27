@@ -5,7 +5,9 @@ import { Observable, Subject } from "rxjs";
 import { takeUntil, take } from "rxjs/operators";
 import { State } from "src/app/app-store";
 import { Store } from "@ngrx/store";
-import { FetchPatientsAction } from "../patients-store/actions";
+import { FetchPatientsAction, CloseModalAction } from "../patients-store/actions";
+import { MatDialog } from "@angular/material/dialog";
+import { PatientComponent } from "../patient/patient.component";
 
 @Component({
   selector: "app-search",
@@ -21,6 +23,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ["name", "actions"];
 
   constructor(
+    public dialog: MatDialog,
     @Inject(PatientsToken) private itemsToken$: Observable<Patient[]>,
     private store: Store<State>
   ) {}
@@ -40,5 +43,16 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  addNewPatientDialog(): void {
+    this.store.dispatch(new CloseModalAction(false));
+    const dialogRef = this.dialog.open(PatientComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("The dialog was closed", result);
+    });
   }
 }

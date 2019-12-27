@@ -9,7 +9,8 @@ export const PatientActions = {
   DeletePatient: "[PatientActions] Delete patient",
   DeletePatientSuccess: "[PatientActions] Successfully deleted patient",
   FetchPatients: "[PatientAction] Fetch patients list",
-  StoreBulkPatients: "[PatientAction] Store bulk patients list locally"
+  StoreBulkPatients: "[PatientAction] Store bulk patients list locally",
+  CloseModal: "[PatientAction] Close patient modal"
 };
 
 export class AddPatientAction implements Action {
@@ -51,4 +52,10 @@ export class StoreBulkPatientsAction implements Action {
   readonly type = PatientActions.StoreBulkPatients;
 
   constructor(public payload: Patient[]) {}
+}
+
+export class CloseModalAction implements Action {
+  readonly type = PatientActions.CloseModal;
+
+  constructor(public payload: boolean) {}
 }
