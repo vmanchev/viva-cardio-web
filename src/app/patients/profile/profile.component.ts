@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit, OnDestroy, Inject, ElementRef } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { Subject, Observable, of } from "rxjs";
 import { takeUntil, withLatestFrom, switchMap } from "rxjs/operators";
 import { PatientsToken } from "../patients-store/tokens";
@@ -16,7 +16,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    @Inject(PatientsToken) private patientsToken$: Observable<Patient[]>
+    @Inject(PatientsToken) private patientsToken$: Observable<Patient[]>,
+    private elRef:ElementRef
   ) {}
 
   ngOnInit() {
@@ -27,6 +28,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  fixheight() {
+    this.elRef.nativeElement.querySelector('.mat-tab-body-wrapper').style.height = '100%';
+    console.log('now')
   }
 
   private getCurrentPatient() {

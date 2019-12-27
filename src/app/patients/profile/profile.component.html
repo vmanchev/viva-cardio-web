@@ -3,7 +3,7 @@
   <mat-divider></mat-divider>
 </div>
 
-<mat-tab-group>
+<mat-tab-group (animationDone)="fixheight()" #tabs>
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="flaticon-heart"></i>
