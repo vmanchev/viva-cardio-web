@@ -32,7 +32,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   fixheight() {
     this.elRef.nativeElement.querySelector('.mat-tab-body-wrapper').style.height = '100%';
-    console.log('now')
   }
 
   private getCurrentPatient() {

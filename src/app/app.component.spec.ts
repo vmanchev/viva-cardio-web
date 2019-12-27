@@ -118,6 +118,7 @@ describe("AppComponent", () => {
   });
 
   describe("when auth token is found in local storage", () => {
+    beforeEach(() => actual = []);
     it("should dispatch AddTokenAction and FetchPatientsAction", () => {
       // ARRANGE
       storageServiceMock.get.and.returnValue("token");
@@ -126,8 +127,8 @@ describe("AppComponent", () => {
       component.ngOnInit();
 
       // ASSERT
-      expect(actual[0].type).toEqual(AuthActions.AddToken);
-      expect(actual[1].type).toEqual(PatientActions.FetchPatients);
+      expect(actual.shift().type).toEqual(AuthActions.AddToken);
+      expect(actual.pop().type).toEqual(PatientActions.FetchPatients);
     });
   });
 });

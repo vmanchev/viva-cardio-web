@@ -1,12 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SearchComponent } from './search.component';
-import { Pipe, PipeTransform, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { TranslateLoader, TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from 'src/app/material/material.module';
+import { BloodPressureSearchComponent } from "./search.component";
+import { Pipe, PipeTransform, Injectable } from "@angular/core";
+import { Observable, of } from "rxjs";
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslatePipe
+} from "@ngx-translate/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { MaterialModule } from "src/app/material/material.module";
+import { BloodPressureService } from "../blood-pressure-service/blood-pressure.service";
 
 @Pipe({
   name: "translate"
@@ -32,9 +38,14 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-describe('SearchComponent', () => {
-  let component: SearchComponent;
-  let fixture: ComponentFixture<SearchComponent>;
+const bloodPressureServiceMock = jasmine.createSpyObj("BloodPressureService", [
+  "search"
+]);
+bloodPressureServiceMock.search.and.returnValue(of({items: []}));
+
+describe("BloodPressureSearchComponent", () => {
+  let component: BloodPressureSearchComponent;
+  let fixture: ComponentFixture<BloodPressureSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -48,20 +59,20 @@ describe('SearchComponent', () => {
       ],
       providers: [
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: TranslatePipe, useClass: TranslatePipeMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        { provide: BloodPressureService, useValue: bloodPressureServiceMock }
       ],
-      declarations: [SearchComponent, TranslatePipeMock]
+      declarations: [BloodPressureSearchComponent, TranslatePipeMock]
     }).compileComponents();
   }));
 
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchComponent);
+    fixture = TestBed.createComponent(BloodPressureSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
