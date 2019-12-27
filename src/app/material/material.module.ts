@@ -9,6 +9,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatTableModule } from "@angular/material/table";
+import { MatDividerModule } from "@angular/material/divider";
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
@@ -18,6 +19,7 @@ import {
   exports: [
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,

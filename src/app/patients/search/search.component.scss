@@ -1,4 +1,50 @@
-table {
-    width: 100%;
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.mat-card {
+  margin: 10px;
+  padding-bottom: 0;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: calc(50% - 52px);
   }
-  
+
+  @media screen and (min-width: 1280px) {
+    width: calc(33% - 52px);
+  }
+
+  @media screen and (min-width: 1600px) {
+    width: calc(25% - 52px);
+  }
+
+  @media screen and (min-width: 1920px) {
+    width: calc(20% - 52px);
+  }
+
+  > .mat-card-actions {
+    margin-bottom: 0!important;
+  }
+}
+
+.mat-icon-button {
+  &:not(:last-of-type) {
+    margin-right: 16px;
+  }
+
+  .flaticon-heart,
+  .flaticon-weight {
+    &:before {
+      margin-left: 0;
+    }
+  }
+
+  .flaticon-diabetes {
+    &:before {
+      margin-left: 5px;
+    }
+  }
+}

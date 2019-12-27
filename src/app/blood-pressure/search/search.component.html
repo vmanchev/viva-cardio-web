@@ -32,6 +32,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 
-<button mat-fab color="primary" [routerLink]="['/blood-pressure', 'reading']">
+<button mat-fab color="primary" [routerLink]="['/blood-pressure', patientId, 'reading']">
   <mat-icon>add</mat-icon>
 </button>
