@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BloodPressureSearchComponent } from './search/search.component';
-import { ReadingComponent } from './reading/reading.component';
+import { BloodPressureSearchComponent } from './blood-pressure-search/blood-pressure-search.component';
+import { BloodPressureReadingComponent } from './blood-pressure-reading/blood-pressure-reading.component';
 import { AuthGuard } from '../auth/auth.guard';
 
 
@@ -13,10 +13,10 @@ const routes: Routes = [{
     component: BloodPressureSearchComponent
   }, {
     path: ':patientId/reading',
-    component: ReadingComponent
+    component: BloodPressureReadingComponent
   }, {
     path: ':patientId/reading/:readingId',
-    component: ReadingComponent
+    component: BloodPressureReadingComponent
   }]
 }];
 

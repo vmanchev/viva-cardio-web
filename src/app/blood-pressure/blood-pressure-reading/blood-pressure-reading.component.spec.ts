@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReadingComponent } from './reading.component';
+import { BloodPressureReadingComponent } from './blood-pressure-reading.component';
 import { Pipe, PipeTransform, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { TranslateLoader, TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -32,9 +32,9 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-describe('ReadingComponent', () => {
-  let component: ReadingComponent;
-  let fixture: ComponentFixture<ReadingComponent>;
+describe('BloodPressureReadingComponent', () => {
+  let component: BloodPressureReadingComponent;
+  let fixture: ComponentFixture<BloodPressureReadingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -50,12 +50,12 @@ describe('ReadingComponent', () => {
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock }
       ],
-      declarations: [ReadingComponent, TranslatePipeMock]
+      declarations: [BloodPressureReadingComponent, TranslatePipeMock]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReadingComponent);
+    fixture = TestBed.createComponent(BloodPressureReadingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

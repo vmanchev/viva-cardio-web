@@ -7,8 +7,8 @@ import { BloodPressureService } from "../blood-pressure-service/blood-pressure.s
 
 @Component({
   selector: "app-blood-pressure-search",
-  templateUrl: "./search.component.html",
-  styleUrls: ["./search.component.scss"]
+  templateUrl: "./blood-pressure-search.component.html",
+  styleUrls: ["./blood-pressure-search.component.scss"]
 })
 export class BloodPressureSearchComponent implements OnInit, OnDestroy {
   patientId: number;
