@@ -10,9 +10,10 @@ import {
   TranslatePipe
 } from "@ngx-translate/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterTestingModule } from "@angular/router/testing";
 import { MaterialModule } from "src/app/material/material.module";
 import { BloodPressureService } from "../blood-pressure-service/blood-pressure.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { BloodPressureReading } from "../blood-pressure-reading.model";
 
 @Pipe({
   name: "translate"
@@ -41,7 +42,26 @@ class FakeLoader implements TranslateLoader {
 const bloodPressureServiceMock = jasmine.createSpyObj("BloodPressureService", [
   "search"
 ]);
-bloodPressureServiceMock.search.and.returnValue(of({items: []}));
+bloodPressureServiceMock.search.and.returnValue(of({ items: [] }));
+
+const resultsMock: BloodPressureReading[] = [
+  {
+    id: "12",
+    patient_id: 22,
+    dia: 120,
+    sys: 80,
+    pulse: 76,
+    created_at: "2019-12-24T18:45:12"
+  },
+  {
+    id: "18",
+    patient_id: 22,
+    dia: 142,
+    sys: 95,
+    pulse: 67,
+    created_at: "2019-12-24T22:01:18"
+  }
+];
 
 describe("BloodPressureSearchComponent", () => {
   let component: BloodPressureSearchComponent;
@@ -51,8 +71,8 @@ describe("BloodPressureSearchComponent", () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        RouterTestingModule,
         MaterialModule,
+        RouterTestingModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: FakeLoader }
         })
@@ -69,10 +89,43 @@ describe("BloodPressureSearchComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BloodPressureSearchComponent);
     component = fixture.componentInstance;
+    component.readings = [];
     fixture.detectChanges();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  describe("ngOnInit", () => {
+    it("should search for patients blood pressure readings", () => {
+      // ARRANGE
+      component.readings = [];
+      component.patientId = "15";
+
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(component.readings.length).toBe(0);
+      expect(bloodPressureServiceMock.search).toHaveBeenCalledWith({
+        patientId: component.patientId
+      });
+    });
+
+    it("should assign the results to a component property when there are results", () => {
+      // ARRANGE
+      component.patientId = "15";
+      bloodPressureServiceMock.search.and.returnValue(
+        of({ items: resultsMock })
+      );
+
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(component.readings.length).toBe(2);
+      expect(component.readings).toEqual(resultsMock);
+    });
   });
 });

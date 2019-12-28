@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { BloodPressureReading } from "../blood-pressure-reading.model";
-import { ActivatedRoute } from "@angular/router";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { BloodPressureService } from "../blood-pressure-service/blood-pressure.service";
@@ -20,21 +19,9 @@ export class BloodPressureSearchComponent implements OnInit, OnDestroy {
 
   @Input() patientId: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private bloodPressureService: BloodPressureService
-  ) {}
+  constructor(private bloodPressureService: BloodPressureService) {}
 
   ngOnInit() {
-    this.search();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private search() {
     this.bloodPressureService
       .search({
         patientId: this.patientId
@@ -44,5 +31,10 @@ export class BloodPressureSearchComponent implements OnInit, OnDestroy {
         (results: { items: BloodPressureReading[] }) =>
           (this.readings = results.items.length ? results.items : [])
       );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

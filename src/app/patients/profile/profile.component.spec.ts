@@ -8,12 +8,19 @@ import {
 } from "@ngx-translate/core";
 import { ProfileComponent } from "./profile.component";
 import { MaterialModule } from "src/app/material/material.module";
-import { Component, PipeTransform, Injectable, Pipe } from "@angular/core";
+import {
+  Component,
+  PipeTransform,
+  Injectable,
+  Pipe,
+  Input
+} from "@angular/core";
 import { Observable, of, Subject } from "rxjs";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { PatientsToken } from "../patients-store/tokens";
 import { Action, Store } from "@ngrx/store";
 import { takeUntil } from "rxjs/operators";
+import { ActivatedRoute } from "@angular/router";
 
 @Pipe({
   name: "translate"
@@ -43,9 +50,11 @@ class FakeLoader implements TranslateLoader {
   selector: "app-blood-pressure-search",
   template: ""
 })
-class BloodPressureSearch {}
+class BloodPressureSearch {
+  @Input() patientId: any;
+}
 
-let patientsTokenMock = of([]);
+let patientsTokenMock = of([{id: "15"}, {id: "20"}]);
 
 describe("ProfileComponent", () => {
   let component: ProfileComponent;
@@ -78,7 +87,14 @@ describe("ProfileComponent", () => {
         },
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: PatientsToken, useValue: patientsTokenMock }
+        { provide: PatientsToken, useValue: patientsTokenMock },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: "15" }),
+            url: of([{ path: "special" }])
+          }
+        }
       ]
     }).compileComponents();
   }));
