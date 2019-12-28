@@ -15,6 +15,11 @@ const routes: Routes = [
     path: "patient/:id",
     component: ProfileComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: "patient/:id/:tab",
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

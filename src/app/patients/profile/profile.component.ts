@@ -1,15 +1,21 @@
-import { Component, OnInit, OnDestroy, Inject, ElementRef } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  ElementRef
+} from "@angular/core";
+import { ActivatedRoute, UrlSegment } from "@angular/router";
 import { Subject, Observable, of } from "rxjs";
 import { takeUntil, withLatestFrom, switchMap } from "rxjs/operators";
 import { PatientsToken } from "../patients-store/tokens";
 import { Patient } from "../patient.model";
-import { Store } from '@ngrx/store';
-import { State } from 'src/app/app-store';
-import { MatDialog } from '@angular/material/dialog';
-import { CloseModalAction } from '../patients-store/actions';
-import { PatientComponent } from '../patient/patient.component';
-import { ConfirmDeletePatientComponent } from '../confirm-delete-patient/confirm-delete-patient.component';
+import { Store } from "@ngrx/store";
+import { State } from "src/app/app-store";
+import { MatDialog } from "@angular/material/dialog";
+import { CloseModalAction } from "../patients-store/actions";
+import { PatientComponent } from "../patient/patient.component";
+import { ConfirmDeletePatientComponent } from "../confirm-delete-patient/confirm-delete-patient.component";
 
 @Component({
   selector: "app-profile",
@@ -20,17 +26,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   public patient: Patient;
 
+  // index of active tab
+  selectedIndex = -1;
+
+  private availableTabs = {
+    "blood-pressure": 0,
+    diabetes: 1,
+    weight: 2
+  };
+
   constructor(
     private route: ActivatedRoute,
     @Inject(PatientsToken) private patientsToken$: Observable<Patient[]>,
-    private elRef:ElementRef,
+    private elRef: ElementRef,
     private store: Store<State>,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
     // get the patientId and find the person name
     this.getCurrentPatient();
+
+    this.route.url
+      .pipe(
+        switchMap((urls: UrlSegment[]) => of(urls.pop().path)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (path: string) => (this.selectedIndex = this.availableTabs[path])
+      );
   }
 
   ngOnDestroy() {
@@ -39,7 +63,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   fixheight() {
-    this.elRef.nativeElement.querySelector('.mat-tab-body-wrapper').style.height = '100%';
+    this.elRef.nativeElement.querySelector(
+      ".mat-tab-body-wrapper"
+    ).style.height = "100%";
   }
 
   openEditDialog(patient: Patient): void {
@@ -60,13 +86,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private getCurrentPatient(): void {
     this.patientsToken$
-    .pipe(
-      withLatestFrom(this.route.params),
-      switchMap(([patients, params]: [Patient[], any]) => {
-        return of(patients.find(patient => patient.id === params.id));
-      }),
-      takeUntil(this.destroy$)
-    )
-    .subscribe((patient: Patient) => this.patient = patient);
+      .pipe(
+        withLatestFrom(this.route.params),
+        switchMap(([patients, params]: [Patient[], any]) => {
+          return of(patients.find(patient => patient.id === params.id));
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((patient: Patient) => (this.patient = patient));
   }
 }

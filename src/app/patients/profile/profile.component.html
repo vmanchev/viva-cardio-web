@@ -9,14 +9,14 @@
   <mat-divider></mat-divider>
 </div>
 
-<mat-tab-group (animationDone)="fixheight()" #tabs>
+<mat-tab-group (animationDone)="fixheight()" [selectedIndex]="selectedIndex">
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="flaticon-heart"></i>
       {{ "NAVIGATION.BLOOD_PRESSURE.HOME" | translate }}
     </ng-template>
     <ng-template matTabContent>
-      <app-blood-pressure-search></app-blood-pressure-search>
+      <app-blood-pressure-search [patientId]="patient.id"></app-blood-pressure-search>
     </ng-template>
   </mat-tab>
 

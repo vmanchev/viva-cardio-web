@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { BloodPressureReading } from "../blood-pressure-reading.model";
 import { ActivatedRoute } from "@angular/router";
 import { takeUntil } from "rxjs/operators";
@@ -11,7 +11,6 @@ import { BloodPressureService } from "../blood-pressure-service/blood-pressure.s
   styleUrls: ["./blood-pressure-search.component.scss"]
 })
 export class BloodPressureSearchComponent implements OnInit, OnDestroy {
-  patientId: string;
   private destroy$ = new Subject();
 
   // fake data
@@ -19,16 +18,15 @@ export class BloodPressureSearchComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ["created_at", "sys", "dia", "pulse"];
 
+  @Input() patientId: string;
+
   constructor(
     private route: ActivatedRoute,
     private bloodPressureService: BloodPressureService
   ) {}
 
   ngOnInit() {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.patientId = params.id;
-      this.search();
-    });
+    this.search();
   }
 
   ngOnDestroy() {

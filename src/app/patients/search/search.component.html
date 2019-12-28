@@ -6,9 +6,9 @@
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-card-actions>
-    <button mat-icon-button [routerLink]="['/blood-pressure', patient.id]"><i class="flaticon-heart"></i></button>
-    <button mat-icon-button><i class="flaticon-weight"></i></button>
-    <button mat-icon-button><i class="flaticon-diabetes"></i></button>
+    <button mat-icon-button [routerLink]="['/patient', patient.id, 'blood-pressure']"><i class="flaticon-heart"></i></button>
+    <button mat-icon-button [routerLink]="['/patient', patient.id, 'diabetes']"><i class="flaticon-diabetes"></i></button>
+    <button mat-icon-button [routerLink]="['/patient', patient.id, 'weight']"><i class="flaticon-weight"></i></button>
   </mat-card-actions>
 </mat-card>
 
