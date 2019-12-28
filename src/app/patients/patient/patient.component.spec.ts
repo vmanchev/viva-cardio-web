@@ -18,6 +18,7 @@ import { takeUntil } from "rxjs/operators";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { PatientCloseModalToken } from "../patients-store/tokens";
+import { PatientActions } from "../patients-store/actions";
 
 @Pipe({
   name: "translate"
@@ -45,7 +46,7 @@ class FakeLoader implements TranslateLoader {
 
 const matDialogRefMock = jasmine.createSpyObj("MatDialogRef", ["close"]);
 
-const matDialogDataMock = {};
+let matDialogDataMock = {};
 
 describe("PatientComponent", () => {
   let component: PatientComponent;
@@ -141,17 +142,41 @@ describe("PatientComponent", () => {
     });
 
     describe("when form is valid", () => {
-      it("should dispatch AddPatientAction", () => {
-        // ARRANGE
-        component.formService.patientForm.setValue({
-          name: "John"
+      describe("and a new patient was added", () => {
+        it("should dispatch AddPatientAction", () => {
+          // ARRANGE
+          component.formService.patientForm.setValue({
+            name: "John"
+          });
+
+          // ACT
+          component.formHandler();
+
+          // ASSERT
+          expect(actual[0].type).toBe(PatientActions.AddPatient);
         });
+      });
 
-        // ACT
-        component.formHandler();
+      describe("and an existing patient was updated", () => {
+        it("should dispatch UpdatePatientAction", () => {
+          // ARRANGE
+          component.data = {
+            id: 1,
+            name: "John",
+            user_id: 23
+          };
+          fixture.detectChanges();
 
-        // ASSERT
-        expect(actual[0].type).toBe("[PatientActions] Add patient");
+          component.formService.patientForm.setValue({
+            name: component.data.name
+          });
+
+          // ACT
+          component.formHandler();
+
+          // ASSERT
+          expect(actual[0].type).toBe(PatientActions.UpdatePatient);
+        });
       });
     });
   });

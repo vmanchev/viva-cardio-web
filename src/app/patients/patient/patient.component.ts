@@ -2,7 +2,10 @@ import { Component, OnInit, Inject, OnDestroy } from "@angular/core";
 import { PatientFormService } from "../patient-form.service";
 import { Store } from "@ngrx/store";
 import { State } from "src/app/app-store";
-import { AddPatientAction } from "../patients-store/actions";
+import {
+  AddPatientAction,
+  UpdatePatientAction
+} from "../patients-store/actions";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { PatientCloseModalToken } from "../patients-store/tokens";
 import { Observable, Subject } from "rxjs";
@@ -28,6 +31,12 @@ export class PatientComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formService.patientForm.reset();
 
+    if (this.data && this.data.id) {
+      this.formService.patientForm.setValue({
+        name: this.data.name
+      });
+    }
+
     this.closeModalToken$
       .pipe(takeUntil(this.destroy$))
       .subscribe(closeFlag => {
@@ -47,9 +56,16 @@ export class PatientComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.store.dispatch(
-      new AddPatientAction(this.formService.patientForm.value)
-    );
+    if (this.data && this.data.id) {
+      let patient = { ...this.data };
+      patient.name = this.formService.patientForm.value.name;
+
+      this.store.dispatch(new UpdatePatientAction(patient));
+    } else {
+      this.store.dispatch(
+        new AddPatientAction(this.formService.patientForm.value)
+      );
+    }
   }
 
   close(): void {

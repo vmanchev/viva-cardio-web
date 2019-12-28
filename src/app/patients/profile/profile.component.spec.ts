@@ -12,6 +12,8 @@ import { Component, PipeTransform, Injectable, Pipe } from "@angular/core";
 import { Observable, of, Subject } from "rxjs";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { PatientsToken } from "../patients-store/tokens";
+import { Action, Store } from "@ngrx/store";
+import { takeUntil } from "rxjs/operators";
 
 @Pipe({
   name: "translate"
@@ -48,8 +50,14 @@ let patientsTokenMock = of([]);
 describe("ProfileComponent", () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
+  const dispatch: Subject<Action> = new Subject();
+  const destroy$ = new Subject();
+  let actual: Action[];
 
   beforeEach(async(() => {
+    actual = [];
+    dispatch.pipe(takeUntil(destroy$)).subscribe(a => actual.push(a));
+
     TestBed.configureTestingModule({
       declarations: [ProfileComponent, BloodPressureSearch, TranslatePipeMock],
       imports: [
@@ -61,6 +69,13 @@ describe("ProfileComponent", () => {
         })
       ],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: action => dispatch.next(action),
+            select: data => of(data)
+          }
+        },
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
         { provide: PatientsToken, useValue: patientsTokenMock }
@@ -72,6 +87,11 @@ describe("ProfileComponent", () => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterAll(() => {
+    destroy$.next();
+    destroy$.complete();
   });
 
   it("should create", () => {

@@ -84,3 +84,16 @@ mat-form-field.mat-form-field-should-float label {
     margin-right: 16px;
   }
 }
+
+.page-title {
+  &__edit {
+    display: none!important;
+  }
+
+  &:hover {
+    .page-title__edit {
+      display: inline-block!important;
+      cursor: pointer;
+    } 
+  }
+}

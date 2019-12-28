@@ -33,9 +33,9 @@ export class PatientEffects {
     ofType<AddPatientAction>(PatientActions.AddPatient),
     switchMap(action => {
       return this.patientService.create(action.payload).pipe(
-        switchMap((response: any) => {
+        switchMap((response: Patient) => {
           return from([
-            new AddPatientSuccessAction(response.patient),
+            new AddPatientSuccessAction(response),
             new CloseModalAction(true)
           ]);
         })
@@ -48,8 +48,11 @@ export class PatientEffects {
     ofType<UpdatePatientAction>(PatientActions.UpdatePatient),
     switchMap(action => {
       return this.patientService.update(action.payload).pipe(
-        switchMap(__ => {
-          return of(new UpdatePatientSuccessAction());
+        switchMap((response: Patient) => {
+          return from([
+            new UpdatePatientSuccessAction(response),
+            new CloseModalAction(true)
+          ]);
         })
       );
     })
@@ -81,7 +84,6 @@ export class PatientEffects {
     ofType<UpdatePatientSuccessAction>(PatientActions.UpdatePatientSuccess),
     tap(__ => {
       this.messageService.success("MESSAGE.SUCCESS_UPDATE_PATIENT");
-      this.router.navigate(["/patients"]);
     })
   );
 

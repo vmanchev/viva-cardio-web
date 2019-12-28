@@ -38,6 +38,7 @@ export class AddPatientSuccessAction implements Action {
 
 export class UpdatePatientSuccessAction implements Action {
   readonly type = PatientActions.UpdatePatientSuccess;
+  constructor(public payload: Patient) {}
 }
 
 export class DeletePatientSuccessAction implements Action {

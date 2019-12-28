@@ -1,5 +1,8 @@
-<div *ngIf="patient">
-  <h1>{{ patient.name }}</h1>
+<div *ngIf="patient" class="page-title">
+  <h1>
+    {{ patient.name }}
+    <mat-icon class="page-title__edit" (click)="openEditDialog(patient)">edit</mat-icon>
+  </h1>
   <mat-divider></mat-divider>
 </div>
 

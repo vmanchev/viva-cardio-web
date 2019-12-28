@@ -16,7 +16,8 @@
     },
     "PATIENTS": {
       "HOME": "Patients",
-      "ADD_NEW": "Add patient"
+      "ADD_NEW": "Add patient",
+      "EDIT": "Edit patient"
     }
   },
   "FORM": {
@@ -50,6 +51,7 @@
   },
   "MESSAGE": {
     "SUCCESS_REGISTRATION": "Your registration was successfull!",
+    "SUCCESS_UPDATE_PATIENT": "Patient data was updated!",
     "SUCCESS_LOGIN": "Successfull authentication!",
     "SUCCESS_FORGOT": "New password has been emailed to you!",
     "ERROR_LOGIN": "Authentication failed!",

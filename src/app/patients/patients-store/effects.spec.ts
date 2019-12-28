@@ -51,9 +51,7 @@ describe("PatientEffects", () => {
           a: new AddPatientAction(patientModelMock)
         });
         const effect = instantiateEffect(source);
-        patientServiceStub.create.and.returnValue(
-          of({ patient: patientModelMock })
-        );
+        patientServiceStub.create.and.returnValue(of(patientModelMock));
 
         // ASSERT
         const expected = cold("(ab)", {
@@ -73,11 +71,12 @@ describe("PatientEffects", () => {
           a: new UpdatePatientAction(patientModelMock)
         });
         const effect = instantiateEffect(source);
-        patientServiceStub.update.and.returnValue(of({}));
+        patientServiceStub.update.and.returnValue(of(patientModelMock));
 
         // ASSERT
-        const expected = cold("a", {
-          a: new UpdatePatientSuccessAction()
+        const expected = cold("(ab)", {
+          a: new UpdatePatientSuccessAction(patientModelMock),
+          b: new CloseModalAction(true)
         });
         expect(effect.updatePatient$).toBeObservable(expected);
       });
@@ -124,7 +123,9 @@ describe("PatientEffects", () => {
   describe("updatePatientSuccess$", () => {
     it("should show success message for updated patient", async () => {
       // ARRANGE
-      const effect = instantiateEffect(of(new UpdatePatientSuccessAction()));
+      const effect = instantiateEffect(
+        of(new UpdatePatientSuccessAction(patientModelMock))
+      );
 
       // ACT
       await effect.updatePatientSuccess$.subscribe();
@@ -133,7 +134,6 @@ describe("PatientEffects", () => {
       expect(messageServiceStub.success).toHaveBeenCalledWith(
         "MESSAGE.SUCCESS_UPDATE_PATIENT"
       );
-      expect(routerStub.navigate).toHaveBeenCalledWith(["/patients"]);
     });
   });
 

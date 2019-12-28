@@ -4,6 +4,11 @@ import { Subject, Observable, of } from "rxjs";
 import { takeUntil, withLatestFrom, switchMap } from "rxjs/operators";
 import { PatientsToken } from "../patients-store/tokens";
 import { Patient } from "../patient.model";
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/app-store';
+import { MatDialog } from '@angular/material/dialog';
+import { CloseModalAction } from '../patients-store/actions';
+import { PatientComponent } from '../patient/patient.component';
 
 @Component({
   selector: "app-profile",
@@ -17,7 +22,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     @Inject(PatientsToken) private patientsToken$: Observable<Patient[]>,
-    private elRef:ElementRef
+    private elRef:ElementRef,
+    private store: Store<State>,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -34,7 +41,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.elRef.nativeElement.querySelector('.mat-tab-body-wrapper').style.height = '100%';
   }
 
-  private getCurrentPatient() {
+  openEditDialog(patient: Patient): void {
+    this.store.dispatch(new CloseModalAction(false));
+    this.dialog.open(PatientComponent, {
+      width: "400px",
+      data: patient
+    });
+  }
+
+  private getCurrentPatient(): void {
     this.patientsToken$
     .pipe(
       withLatestFrom(this.route.params),
