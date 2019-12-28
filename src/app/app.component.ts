@@ -4,8 +4,13 @@ import { environment } from "src/environments/environment";
 import { StorageService } from "./shared/storage-service/storage.service";
 import { Store } from "@ngrx/store";
 import { State } from "./app-store";
-import { AddTokenAction, SuccessfullLoginAction } from "./auth/auth-store/actions";
-import { FetchPatientsAction } from './patients/patients-store/actions';
+import {
+  AddTokenAction,
+  SuccessfullLoginAction,
+  LogoutAction
+} from "./auth/auth-store/actions";
+import { FetchPatientsAction } from "./patients/patients-store/actions";
+import { UserService } from "./auth/user.service";
 
 @Component({
   selector: "app-root",
@@ -18,6 +23,7 @@ export class AppComponent implements OnInit {
   constructor(
     private translateService: TranslateService,
     private storageService: StorageService,
+    private userService: UserService,
     private store: Store<State>
   ) {}
 
@@ -30,9 +36,13 @@ export class AppComponent implements OnInit {
     const previousToken = this.storageService.get("token");
 
     if (previousToken) {
-      this.store.dispatch(new AddTokenAction(previousToken));
-      this.store.dispatch(new FetchPatientsAction());
-      // this.store.dispatch(new SuccessfullLoginAction());
+      if (this.userService.isValidToken(previousToken)) {
+        this.store.dispatch(new AddTokenAction(previousToken));
+        this.store.dispatch(new FetchPatientsAction());
+        // this.store.dispatch(new SuccessfullLoginAction());
+      } else {
+        this.store.dispatch(new LogoutAction());
+      }
     }
   }
 }

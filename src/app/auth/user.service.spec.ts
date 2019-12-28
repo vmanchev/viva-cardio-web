@@ -13,6 +13,9 @@ const userMock = {
   password: "qwerty"
 } as User;
 
+const expiredTokenMock = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIxMjcuMC4wLjEiLCJzdWIiOiIyOSIsImV4cCI6MTU3NzUxODIyNSwiaWF0IjoiRnJpLCAyNyBEZWMgMjAxOSAyMzozMDoyNSArMDIwMCJ9.hZSY5YNHmoCcVy0GLq74m590GP68S9mowQRnmZ6t2hg";
+const nonExpiredTokenMock = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1Nzc1MjAzMTYsImV4cCI6NDc2NDcyOTkxNiwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.IDz8CCOzhkav-_t40znaxvqtnvvtE6V9KuFuPu4TSwA";
+
 describe("UserService", () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -71,6 +74,16 @@ describe("UserService", () => {
         httpMock.verify();
       }
     ));
+  });
+
+  describe('isValidToken', () => {
+    it('should return true when token has not expired yet', inject([UserService], (service: UserService) => {
+      expect(service.isValidToken(nonExpiredTokenMock)).toBeTrue();
+    }));
+
+    it('should return false when token has expired yet', inject([UserService], (service: UserService) => {
+      expect(service.isValidToken(expiredTokenMock)).toBeFalse();
+    }));
   });
 
 });

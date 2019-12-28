@@ -25,4 +25,11 @@ export class UserService {
   public forgot(user: Partial<User>) {
     return this.http.post(environment.apiUrl + this.path + '/forgot', user);
   }
+
+  public isValidToken(token: string): boolean {
+    let dataChunk = token.split('.')[1];
+    let tokenData = JSON.parse(atob(dataChunk));
+
+    return tokenData.exp * 1000 > new Date().getTime();
+  }
 }

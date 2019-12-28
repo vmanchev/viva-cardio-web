@@ -18,6 +18,7 @@ import { takeUntil } from "rxjs/operators";
 import { AuthActions } from "./auth/auth-store/actions";
 import { StorageService } from "./shared/storage-service/storage.service";
 import { PatientActions } from "./patients/patients-store/actions";
+import { UserService } from "./auth/user.service";
 
 @Pipe({
   name: "translate"
@@ -55,6 +56,7 @@ class HeaderComponentMock {}
 class FooterComponentMock {}
 
 const storageServiceMock = jasmine.createSpyObj("StorageService", ["get"]);
+const userServiceMock = jasmine.createSpyObj("UserService", ["isValidToken"]);
 
 describe("AppComponent", () => {
   let component: AppComponent;
@@ -86,7 +88,8 @@ describe("AppComponent", () => {
         },
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
-        { provide: StorageService, useValue: storageServiceMock }
+        { provide: StorageService, useValue: storageServiceMock },
+        { provide: UserService, useValue: userServiceMock }
       ],
       declarations: [
         AppComponent,
@@ -118,10 +121,12 @@ describe("AppComponent", () => {
   });
 
   describe("when auth token is found in local storage", () => {
-    beforeEach(() => actual = []);
-    it("should dispatch AddTokenAction and FetchPatientsAction", () => {
+    beforeEach(() => (actual = []));
+
+    it("should dispatch AddTokenAction and FetchPatientsAction when token is valid", () => {
       // ARRANGE
       storageServiceMock.get.and.returnValue("token");
+      userServiceMock.isValidToken.and.returnValue(true);
 
       // ACT
       component.ngOnInit();
@@ -129,6 +134,18 @@ describe("AppComponent", () => {
       // ASSERT
       expect(actual.shift().type).toEqual(AuthActions.AddToken);
       expect(actual.pop().type).toEqual(PatientActions.FetchPatients);
+    });
+
+    it("should dispatch LogoutAction when token has expired", () => {
+      // ARRANGE
+      storageServiceMock.get.and.returnValue("token");
+      userServiceMock.isValidToken.and.returnValue(false);
+
+      // ACT
+      component.ngOnInit();
+
+      // ASSERT
+      expect(actual.pop().type).toEqual(AuthActions.Logout);
     });
   });
 });
