@@ -27,7 +27,7 @@ const messageServiceStub = jasmine.createSpyObj("MessageService", [
 const routerStub = jasmine.createSpyObj("Router", ["navigate"]);
 
 const patientModelMock = {
-  id: 123,
+  id: "123",
   name: "John Doe"
 };
 
@@ -94,8 +94,9 @@ describe("PatientEffects", () => {
         patientServiceStub.delete.and.returnValue(of({}));
 
         // ASSERT
-        const expected = cold("a", {
-          a: new DeletePatientSuccessAction()
+        const expected = cold("(ab)", {
+          a: new DeletePatientSuccessAction(patientModelMock.id),
+          b: new CloseModalAction(true)
         });
         expect(effect.deletePatient$).toBeObservable(expected);
       });
@@ -140,7 +141,7 @@ describe("PatientEffects", () => {
   describe("deletePatientSuccess$", () => {
     it("should show success message for updated patient", async () => {
       // ARRANGE
-      const effect = instantiateEffect(of(new DeletePatientSuccessAction()));
+      const effect = instantiateEffect(of(new DeletePatientSuccessAction(patientModelMock.id)));
 
       // ACT
       await effect.deletePatientSuccess$.subscribe();

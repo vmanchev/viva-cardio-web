@@ -1,5 +1,5 @@
 export interface BloodPressureReading {
-    id?: number;
+    id?: string;
     patient_id: number;
     sys: number;
     dia: number;

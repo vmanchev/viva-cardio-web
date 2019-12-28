@@ -9,7 +9,7 @@ import { Patient } from "./patient.model";
 import { environment } from "src/environments/environment";
 
 const patientMock = {
-  id: 123,
+  id: "123",
   name: "John Doe"
 } as Patient;
 

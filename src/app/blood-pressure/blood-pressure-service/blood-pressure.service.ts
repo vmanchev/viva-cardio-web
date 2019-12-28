@@ -16,7 +16,7 @@ export class BloodPressureService {
     return this.http.post(environment.apiUrl + this.path, reading);
   }
 
-  public delete(id: number) {
+  public delete(id: string) {
     return this.http.delete(environment.apiUrl + this.path + "/" + id);
   }
 

@@ -11,7 +11,7 @@ import { BloodPressureService } from "../blood-pressure-service/blood-pressure.s
   styleUrls: ["./blood-pressure-search.component.scss"]
 })
 export class BloodPressureSearchComponent implements OnInit, OnDestroy {
-  patientId: number;
+  patientId: string;
   private destroy$ = new Subject();
 
   // fake data
