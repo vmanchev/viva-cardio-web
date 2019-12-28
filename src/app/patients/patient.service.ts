@@ -22,7 +22,7 @@ export class PatientService {
     );
   }
 
-  public delete(id: number) {
+  public delete(id: string) {
     return this.http.delete(environment.apiUrl + this.path + "/" + id);
   }
 

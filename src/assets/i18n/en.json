@@ -43,7 +43,8 @@
   "BUTTON": {
     "SUBMIT": "Submit",
     "SAVE": "Save",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm"
   },
   "ACTION": {
     "ACTIONS": "Actions",
@@ -51,10 +52,16 @@
   },
   "MESSAGE": {
     "SUCCESS_REGISTRATION": "Your registration was successfull!",
+    "SUCCESS_ADD_PATIENT": "Patient data was saved successfully!",
     "SUCCESS_UPDATE_PATIENT": "Patient data was updated!",
+    "SUCCESS_DELETE_PATIENT": "Patient data was deleted successfully!",
     "SUCCESS_LOGIN": "Successfull authentication!",
     "SUCCESS_FORGOT": "New password has been emailed to you!",
     "ERROR_LOGIN": "Authentication failed!",
-    "ERROR_FORGOT": "Unknown user!"
+    "ERROR_FORGOT": "Unknown user!",
+    "CONFIRM_DELETE": {
+      "TITLE": "Warning!",
+      "PATIENT": "Are you sure you want to delete {{ patient.name }} from your patients list?<br /><br />All related data will be deleted as well."
+    }
   }
 }

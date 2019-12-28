@@ -3,7 +3,8 @@ import {
   StoreBulkPatientsAction,
   AddPatientSuccessAction,
   CloseModalAction,
-  UpdatePatientSuccessAction
+  UpdatePatientSuccessAction,
+  DeletePatientSuccessAction
 } from "./actions";
 import { ActionsMap } from "src/app/app-store/actions-map";
 import { Patient } from "../patient.model";
@@ -42,6 +43,23 @@ function updatePatientSuccess(
 
   items[patientIdx] = action.payload;
 
+  items = _.sortBy(items, "name");
+
+  return {
+    ...state,
+    items
+  };
+}
+
+function deletePatientSuccess(
+  state: PatientsState,
+  action: DeletePatientSuccessAction
+): PatientsState {
+  let items = [...state.items];
+
+  let patientIdx = _.findIndex(items, { id: action.payload });
+
+  items.splice(patientIdx, 1);
   items = _.sortBy(items, "name");
 
   return {
@@ -89,7 +107,8 @@ const reducerMap: ActionsMap<PatientsState> = {
   [PatientActions.UpdatePatientSuccess]: updatePatientSuccess,
   [PatientActions.StoreBulkPatients]: storeBulkPatients,
   [PatientActions.CloseModal]: closeModal,
-  [AuthActions.Logout]: logout
+  [AuthActions.Logout]: logout,
+  [PatientActions.DeletePatientSuccess]: deletePatientSuccess
 };
 
 export function patientsStateReducer(

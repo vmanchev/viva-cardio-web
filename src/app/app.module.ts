@@ -11,20 +11,25 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material/material.module";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { BloodPressureModule } from './blood-pressure/blood-pressure.module';
-import { BloodPressureRoutingModule } from './blood-pressure/blood-pressure-routing.module';
-import { PatientsModule } from './patients/patients.module';
-import { PatientsRoutingModule } from './patients/patients-routing.module';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './app-store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
-import { SharedModule } from './shared/shared.module';
-import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
-import { PatientComponent } from './patients/patient/patient.component';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS
+} from "@angular/common/http";
+import { BloodPressureModule } from "./blood-pressure/blood-pressure.module";
+import { BloodPressureRoutingModule } from "./blood-pressure/blood-pressure-routing.module";
+import { PatientsModule } from "./patients/patients.module";
+import { PatientsRoutingModule } from "./patients/patients-routing.module";
+import { StoreModule } from "@ngrx/store";
+import { reducers, metaReducers } from "./app-store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { environment } from "../environments/environment";
+import { AuthInterceptor } from "./interceptors/auth/auth.interceptor";
+import { SharedModule } from "./shared/shared.module";
+import { EffectsModule } from "@ngrx/effects";
+import { AppEffects } from "./app.effects";
+import { PatientComponent } from "./patients/patient/patient.component";
+import { ConfirmDeletePatientComponent } from "./patients/confirm-delete-patient/confirm-delete-patient.component";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -52,19 +57,19 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     StoreModule.forRoot(reducers, {
-      metaReducers, 
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true,
+        strictActionImmutability: true
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([AppEffects])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-  entryComponents: [PatientComponent],
+  entryComponents: [PatientComponent, ConfirmDeletePatientComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

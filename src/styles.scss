@@ -1,13 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
-$custom-typography: mat-typography-config($font-family: '"Philosopher", sans-serif;');
+$custom-typography: mat-typography-config(
+  $font-family: '"Philosopher", sans-serif;'
+);
 @include mat-core($custom-typography);
 
-@import 'vars';
-@import 'mixins';
-@import 'assets/flaticon/flaticon.css';
+@import "vars";
+@import "mixins";
+@import "assets/flaticon/flaticon.css";
 
 html,
 body {
@@ -41,14 +43,14 @@ body {
 }
 
 .mat-fab {
-  position: fixed!important;
+  position: fixed !important;
   bottom: 16px;
   right: 16px;
 }
 
 .mat-form-field-appearance-outline {
   .mat-form-field-subscript-wrapper {
-    padding-left: 0!important;
+    padding-left: 0 !important;
   }
 }
 
@@ -86,14 +88,22 @@ mat-form-field.mat-form-field-should-float label {
 }
 
 .page-title {
-  &__edit {
-    display: none!important;
+  &__actions {
+    display: block;
+    @media screen and (min-width: 768px) {
+      display: inline-block;
+    }
+  }
+
+  &__action {
+    &:not(:last-of-type) {
+      margin-right: 16px;
+    }
   }
 
   &:hover {
-    .page-title__edit {
-      display: inline-block!important;
+    .page-title__action {
       cursor: pointer;
-    } 
+    }
   }
 }

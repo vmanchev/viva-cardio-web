@@ -16,9 +16,10 @@ import { PatientsToken, PatientCloseModalToken } from "./patients-store/tokens";
 import { patientsSelector, closeModalSelector } from "./patients-store/selectors";
 import { ProfileComponent } from "./profile/profile.component";
 import { BloodPressureModule } from '../blood-pressure/blood-pressure.module';
+import { ConfirmDeletePatientComponent } from './confirm-delete-patient/confirm-delete-patient.component';
 
 @NgModule({
-  declarations: [SearchComponent, PatientComponent, ProfileComponent],
+  declarations: [SearchComponent, PatientComponent, ProfileComponent, ConfirmDeletePatientComponent],
   imports: [
     CommonModule,
     BloodPressureModule,

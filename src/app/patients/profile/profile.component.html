@@ -1,7 +1,10 @@
 <div *ngIf="patient" class="page-title">
   <h1>
     {{ patient.name }}
-    <mat-icon class="page-title__edit" (click)="openEditDialog(patient)">edit</mat-icon>
+    <div class="page-title__actions">
+      <mat-icon class="page-title__action" (click)="openEditDialog(patient)">edit</mat-icon>
+      <mat-icon class="page-title__action" (click)="confirmDelete(patient)">delete_forever</mat-icon>
+    </div>
   </h1>
   <mat-divider></mat-divider>
 </div>

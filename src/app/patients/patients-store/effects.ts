@@ -12,7 +12,7 @@ import {
   StoreBulkPatientsAction,
   CloseModalAction
 } from "./actions";
-import { switchMap, tap, map, catchError } from "rxjs/operators";
+import { switchMap, tap, map, catchError, delay } from "rxjs/operators";
 import { MessageService } from "src/app/shared/message-service/message.service";
 import { Router } from "@angular/router";
 import { from, of } from "rxjs";
@@ -64,7 +64,10 @@ export class PatientEffects {
     switchMap(action => {
       return this.patientService.delete(action.payload).pipe(
         switchMap(__ => {
-          return of(new DeletePatientSuccessAction());
+          return from([
+            new DeletePatientSuccessAction(action.payload),
+            new CloseModalAction(true)
+          ]);
         })
       );
     })
@@ -92,6 +95,7 @@ export class PatientEffects {
     ofType<DeletePatientSuccessAction>(PatientActions.DeletePatientSuccess),
     tap(__ => {
       this.messageService.success("MESSAGE.SUCCESS_DELETE_PATIENT");
+      this.router.navigate(["/patients"]);
     })
   );
 

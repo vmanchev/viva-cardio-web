@@ -9,6 +9,7 @@ import { State } from 'src/app/app-store';
 import { MatDialog } from '@angular/material/dialog';
 import { CloseModalAction } from '../patients-store/actions';
 import { PatientComponent } from '../patient/patient.component';
+import { ConfirmDeletePatientComponent } from '../confirm-delete-patient/confirm-delete-patient.component';
 
 @Component({
   selector: "app-profile",
@@ -44,6 +45,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   openEditDialog(patient: Patient): void {
     this.store.dispatch(new CloseModalAction(false));
     this.dialog.open(PatientComponent, {
+      width: "400px",
+      data: patient
+    });
+  }
+
+  confirmDelete(patient: Patient): void {
+    this.store.dispatch(new CloseModalAction(false));
+    this.dialog.open(ConfirmDeletePatientComponent, {
       width: "400px",
       data: patient
     });
